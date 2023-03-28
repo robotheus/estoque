@@ -29,7 +29,15 @@ public class Persistente {
         return null; //se nao encontrar aquele id
     }
 
-    public String toString() {
-        return "//pensar sobre";
-    }   
+    public Entidade buscaPorName(String name){
+        for (Entidade x : persistencia) {
+            if (name.equals(x.getName())) {
+                return x;
+            }
+        }
+        
+        return null; //se nao encontrar aquele nome
+    }
+
+    //to string como? 
 }
