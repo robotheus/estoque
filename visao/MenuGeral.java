@@ -27,6 +27,10 @@ public class MenuGeral {
                     
                     break;
             }
+            
+            sc.close();
         }
+
+        
     }  
 }
