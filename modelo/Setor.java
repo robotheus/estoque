@@ -1,36 +1,34 @@
 package modelo;
 
-import java.util.ArrayList;
-
 public class Setor extends Entidade{
-    private Chefia chefe;
-    
-    ArrayList<Produto> produtosDisponiveis = new ArrayList<Produto>();
-    ArrayList<Produto> pedidos = new ArrayList<Produto>();
-    ArrayList<Produto> disponibilidades = new ArrayList<Produto>();
+    private Usuario userChefe;
 
     public Setor(String name){
         super(name);
-        chefe = null;
+        this.userChefe = null;
     }
 
-    public Setor(String name, Chefia chefe){
+    public Setor(String name, Usuario userChefe){
         super(name);
-        this.chefe = chefe;
+        this.userChefe = userChefe;
     }
 
-    public Chefia getChefe() {
-        return chefe;
+    public Usuario getUserChefe() {
+        return userChefe;
     }
 
-    public void setChefe(Chefia chefe) {
-        this.chefe = chefe;
+    public void setUserChefe(Usuario userChefe) {
+        this.userChefe = userChefe;
     }
 
     public String toString() {
-        return super.toString() + "Setor [chefe=" + chefe + ", produtosDisponiveis=" + produtosDisponiveis + ", pedidos=" + pedidos
-                + ", disponibilidades=" + disponibilidades + "]";
-    }
+        return super.toString() + "Setor [userChefe=" + userChefe + "]";
+    } 
+
+    //cadastrar um setor
+    //remover um setor
+    
+
 
     
     

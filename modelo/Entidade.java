@@ -21,11 +21,6 @@ public abstract class Entidade {
         return id;
     }
 
-    //não faz sentido mudar o id
-    /*public void setId(int id) {
-        this.id = id;
-    }*/
-
     public String getName() {
         return name;
     }
@@ -33,6 +28,8 @@ public abstract class Entidade {
     public void setName(String name) {
         this.name = name;
     }
+
+    //set id nao faz sentido
 
     public String toString() {
         return "[id = " + id + ", name = " + name + "]";

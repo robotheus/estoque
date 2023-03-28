@@ -1,18 +1,16 @@
 package modelo;
 
-import java.util.ArrayList;
-
 public class Troca extends Entidade{
     //classe da transação
     private Setor setOrigem;
     private Setor setDestino;
-    private ArrayList<Produto> prod = new ArrayList<Produto>();
+    private Bem bemTroca;
 
-    public Troca(Setor setOrigem, Setor setDestino, ArrayList<Produto> prod){
+    public Troca(Setor setOrigem, Setor setDestino, Bem bemTroca){
         super();
         this.setOrigem = setOrigem;
         this.setDestino = setDestino;
-        this.prod = prod;
+        this.bemTroca = bemTroca;
     }
 
     public Setor getSetOrigem() {
@@ -23,13 +21,17 @@ public class Troca extends Entidade{
         return setDestino;
     }
 
-    
-
-    
-    
-    public String toString() {
-        return super.toString() + "Troca [setOrigem=" + setOrigem + ", setDestino=" + setDestino + "]";
+    public Bem getBemTroca(){
+        return this.bemTroca;
     }
 
+    public String toString() {
+        return super.toString() + "Troca [setOrigem=" + setOrigem + ", setDestino=" + setDestino + ", bemTroca=" + bemTroca + "]";
+    }
+
+    //setters sao pertinentes??
+    //classe de transicao
+    //adicionar bem remover bem da classe de transicao
+    //trocar um bem
     
 }
