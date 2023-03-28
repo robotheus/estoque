@@ -8,11 +8,6 @@ public class Setor extends Entidade{
         this.userChefe = null;
     }
 
-    public Setor(String name, Usuario userChefe){
-        super(name);
-        this.userChefe = userChefe;
-    }
-
     public Usuario getUserChefe() {
         return userChefe;
     }
@@ -23,14 +18,5 @@ public class Setor extends Entidade{
 
     public String toString() {
         return super.toString() + "Setor [userChefe=" + userChefe + "]";
-    } 
-
-    //cadastrar um setor
-    //remover um setor
-    
-
-
-    
-    
-    
+    }  
 }

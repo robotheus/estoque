@@ -1,6 +1,6 @@
 package modelo;
 
-public class Usuario {
+public class Usuario extends Entidade{
     private Setor setor;
 
     public Usuario(){
