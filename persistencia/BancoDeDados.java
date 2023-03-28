@@ -1,42 +1,18 @@
 package persistencia;
 
 public class BancoDeDados {
-    private Persistente persistenteChefia;
-    private Persistente persistenteFuncionario;
+    private Persistente persistenteUsuario;
     private Persistente persistenteSetor;
-    private Persistente persistenteProduto;
+    private Persistente persistenteBem;
     private Persistente persistenteTroca;
 
     public BancoDeDados() {
-        persistenteChefia = new Persistente();
-        persistenteFuncionario = new Persistente();
+        persistenteUsuario = new Persistente();
         persistenteSetor = new Persistente();
-        persistenteProduto = new Persistente();
+        persistenteBem = new Persistente();
         persistenteTroca = new Persistente();
     }
 
-    public Persistente getPersistenteChefia() {
-        return persistenteChefia;
-    }
-
-    public Persistente getPersistenteFuncionario() {
-        return persistenteFuncionario;
-    }
-
-    public Persistente getPersistenteSetor() {
-        return persistenteSetor;
-    }
-
-    public Persistente getPersistenteProduto() {
-        return persistenteProduto;
-    }
-
-    public Persistente getPersistenteTroca() {
-        return persistenteTroca;
-    }
-
-    //como ficam os setters?
-
-    
+    //como ficam os getters e setters?
 }
 

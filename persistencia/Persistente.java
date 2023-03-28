@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import modelo.Entidade;
 
-
 public class Persistente {
     private ArrayList<Entidade> persistencia;
     
@@ -26,10 +25,11 @@ public class Persistente {
                 return x;
             }
         }
+        
         return null; //se nao encontrar aquele id
     }
 
     public String toString() {
-        return "pensar sobre";
-    }
+        return "//pensar sobre";
+    }   
 }
