@@ -29,8 +29,6 @@ public abstract class Entidade {
         this.name = name;
     }
 
-    //set id nao faz sentido
-
     public String toString() {
         return "[id = " + id + ", name = " + name + "]";
     }  

@@ -1,7 +1,6 @@
 package modelo;
 
 public class Troca extends Entidade{
-    //classe da transação
     private Setor setOrigem;
     private Setor setDestino;
     private Bem bemTroca;

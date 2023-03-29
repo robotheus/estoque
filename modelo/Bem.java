@@ -29,7 +29,4 @@ public class Bem extends Entidade{
     public String toString() {
         return super.toString() + "Produto [setor=" + setor + ", qtd=" + qtd + "]";
     }
-
-    //cadastrar um bem disponivel
-    //remover um bem disponivel
 }
