@@ -3,8 +3,6 @@ package persistencia;
 import java.util.ArrayList;
 
 import modelo.Entidade;
-import modelo.Setor;
-import modelo.Usuario;
 
 public class Persistente {
     private ArrayList<Entidade> persistencia;
@@ -39,12 +37,6 @@ public class Persistente {
         }
         
         return null; //se nao encontrar aquele nome
-    }
-
-    public void alteraChefeSetor(Entidade setor, Entidade user){
-        Setor s = (Setor) setor;
-        Usuario u = (Usuario) user;
-        s.setUserChefe(u);
     }
 
     //to string como? 
