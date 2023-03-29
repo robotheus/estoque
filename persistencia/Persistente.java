@@ -2,7 +2,7 @@ package persistencia;
 
 import java.util.ArrayList;
 
-import modelo.Entidade;
+import modelo.*;
 
 public class Persistente {
     private ArrayList<Entidade> persistencia;
@@ -38,6 +38,11 @@ public class Persistente {
         
         return null; //se nao encontrar aquele nome
     }
-
+    public void visualizarTudo(){
+        for(Entidade x : persistencia){
+            System.out.println("ID: " + x.getId() + ", NOME: " + x.getName());
+        }
+    }
+    
     //to string como? 
 }
