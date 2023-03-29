@@ -17,6 +17,6 @@ public class Setor extends Entidade{
     }
 
     public String toString() {
-        return super.toString() + "Setor [userChefe=" + userChefe + "]";
+        return super.toString() + ", [userChefe = " + userChefe + "]";
     }  
 }

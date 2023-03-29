@@ -3,13 +3,13 @@ package modelo;
 public class Usuario extends Entidade{
     private Setor setor;
 
-    public Usuario(){
-        super();
+    public Usuario(String name){
+        super(name);
         this.setor = null;
     }
 
-    public Usuario(Setor setor){
-        super();
+    public Usuario(String name, Setor setor){
+        super(name);
         this.setor = setor;
     }
 
@@ -20,6 +20,4 @@ public class Usuario extends Entidade{
     public void setSetor(Setor setor) {
         this.setor = setor;
     }
-
-    //cadastra usuario remove usuario
 }
