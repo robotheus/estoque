@@ -42,7 +42,5 @@ public class Persistente {
         for(Entidade x : persistencia){
             System.out.println("ID: " + x.getId() + ", NOME: " + x.getName());
         }
-    }
-    
-    //to string como? 
+    } 
 }

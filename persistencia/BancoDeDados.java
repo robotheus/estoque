@@ -28,7 +28,5 @@ public class BancoDeDados {
     public Persistente getPersistenteTroca() {
         return persistenteTroca;
     }
-
-    //os setters como ficam?? vao ser usados?? ja tenho os metodos de alterar
 }
 
