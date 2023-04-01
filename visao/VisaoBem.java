@@ -13,7 +13,7 @@ public class VisaoBem {
             System.out.println("    Digite 0 para RETORNAR ao menu inicial.");
             System.out.println("    Digite 1 para CADASTRAR um BEM.");
             System.out.println("    Digite 2 para REMOVER um BEM.");
-            System.out.println("    Digite 3 para ALTERAR o BEM (quantidade).");
+            System.out.println("    Digite 3 para ALTERAR o BEM (setor).");
             System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
             System.out.println("    Digite 5 para VISUALIZAR TODOS.");
 
@@ -28,10 +28,7 @@ public class VisaoBem {
                     sc.nextLine();
                     String nameBem = sc.nextLine();
                     System.out.println("Digite o SETOR do novo BEM: ");
-                    sc.nextLine();
                     String setorBem = sc.nextLine();
-                    System.out.println("Digite a QUANTIDADE do novo BEM: ");
-                    int qtdBem = sc.nextInt();
                     
                     Setor s = (Setor) banco.getPersistenteSetor().buscaPorName(setorBem);
                     
@@ -40,9 +37,9 @@ public class VisaoBem {
                         break;
                     }
                     
-                    Bem novoBem = new Bem(nameBem, s, qtdBem);
+                    Bem novoBem = new Bem(nameBem, s);
                     banco.getPersistenteBem().adicionarObjeto(novoBem);
-    
+                    System.out.println("BEM CADASTRADO! ID: " + novoBem.getId());
                     System.out.println();
                     break;
                         
@@ -62,13 +59,16 @@ public class VisaoBem {
                     System.out.println("Digite o NOME do BEM a ser ALTERADO:");
                     sc.nextLine();
                     String bemAlterado = sc.nextLine();
-                    System.out.println("Digite a NOVA QUANTIDADE do bem:");
-                    int newQtd = sc.nextInt();
+                    System.out.println("Digite o NOVO SETOR do bem:");
+                    String newSetor = sc.nextLine();
                         
                     Bem aux1 = (Bem) banco.getPersistenteBem().buscaPorName(bemAlterado);
-                        
+                    Setor aux2 = (Setor) banco.getPersistenteSetor().buscaPorName(newSetor);
+                    
                     if(aux1 != null){
-                        aux1.setQtd(newQtd);
+                        if(aux2 != null){
+                            aux1.setSetor(aux2);
+                        } else System.out.println("SETOR NAO ENCONTRADO");
                     } else System.out.println("BEM NÃO ENCONTRADO!");
                         
                     System.out.println();
@@ -88,6 +88,7 @@ public class VisaoBem {
                     
                 case 5:
                     banco.getPersistenteBem().visualizarTudo();
+                    break; 
                     
                 default:
                     break;

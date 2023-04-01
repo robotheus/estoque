@@ -43,7 +43,8 @@ public class VisaoUsuario {
                     Setor a = (Setor) banco.getPersistenteSetor().buscaPorName(setorUser);
                     novoUsuario.setSetor(a);
                     banco.getPersistenteUsuario().adicionarObjeto(novoUsuario);
-                        
+                    
+                    System.out.println("USUARIO CADASTRADO! ID: " + novoUsuario.getId());
                     System.out.println();
                     break;
                         

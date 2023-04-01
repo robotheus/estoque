@@ -30,7 +30,8 @@ public class VisaoSetor {
                         
                     Setor novoSetor = new Setor(name);
                     banco.getPersistenteSetor().adicionarObjeto(novoSetor);
-                        
+
+                    System.out.println("BEM CADASTRADO! ID: " + novoSetor.getId());
                     System.out.println();
                     break;
                         

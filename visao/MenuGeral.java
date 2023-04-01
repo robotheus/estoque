@@ -35,7 +35,11 @@ public class MenuGeral {
                 case 3:
                     VisaoBem.MenuBem(banco, sc);
                     break; 
-
+                
+                case 4:
+                    VisaoTroca.MenuTroca(banco, sc);
+                    break;
+                    
                 default:
                     break;
             }
