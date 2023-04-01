@@ -1,36 +1,59 @@
 package modelo;
 
+import java.util.ArrayList;
+
 public class Troca extends Entidade{
     private Setor setOrigem;
     private Setor setDestino;
-    private Bem bemTroca;
+    private ArrayList<Bem> bemTroca;
+    private Recibo carrinho;
 
-    public Troca(Setor setOrigem, Setor setDestino, Bem bemTroca){
+    public Troca(Setor setOrigem, Setor setDestino){
         super();
         this.setOrigem = setOrigem;
         this.setDestino = setDestino;
-        this.bemTroca = bemTroca;
+        this.bemTroca = new ArrayList<Bem>();
+        this.carrinho = new Recibo(bemTroca);
     }
 
     public Setor getSetOrigem() {
         return setOrigem;
     }
 
+    public void setSetOrigem(Setor setOrigem) {
+        this.setOrigem = setOrigem;
+    }
+
     public Setor getSetDestino() {
         return setDestino;
     }
 
-    public Bem getBemTroca(){
-        return this.bemTroca;
+    public void setSetDestino(Setor setDestino) {
+        this.setDestino = setDestino;
+    }
+
+    public ArrayList<Bem> getBemTroca() {
+        return bemTroca;
+    }
+
+    public Recibo getCarrinho(){
+        return this.carrinho;
+    }
+
+    public void addCarrinho(Bem b){
+        this.carrinho.getBens().add(b);
+        this.carrinho.setqtdBensNoCarrinho(this.carrinho.getqtdBensNoCarrinho() + 1);
+    }
+
+    public void removeCarrinho(Bem b){
+        this.carrinho.getBens().remove(b);
+        this.carrinho.setqtdBensNoCarrinho(this.carrinho.getqtdBensNoCarrinho() - 1);
     }
 
     public String toString() {
-        return super.toString() + "Troca [setOrigem=" + setOrigem + ", setDestino=" + setDestino + ", bemTroca=" + bemTroca + "]";
+        return super.toString() + "Troca [setOrigem=" + setOrigem + ", setDestino=" + setDestino + ", bemTroca=" + bemTroca + ", carrinho="
+                + carrinho + "]";
     }
 
-    //setters sao pertinentes??
-    //classe de transicao
-    //adicionar bem remover bem da classe de transicao
-    //trocar um bem
     
 }

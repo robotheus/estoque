@@ -2,11 +2,9 @@ package modelo;
 
 public class Bem extends Entidade{
     private Setor setor;
-    private int qtd;
 
-    public Bem(String name, Setor setor, int qtd){
+    public Bem(String name, Setor setor){
         super(name);
-        this.qtd = qtd;
         this.setor = setor;
     }
 
@@ -18,15 +16,7 @@ public class Bem extends Entidade{
         this.setor = setor;
     }
 
-    public int getQtd() {
-        return qtd;
-    }
-
-    public void setQtd(int qtd) {
-        this.qtd = qtd;
-    }
-
     public String toString() {
-        return super.toString() + "Produto [setor=" + setor + ", qtd=" + qtd + "]";
+        return super.toString() + "Produto [setor=" + setor;
     }
 }
