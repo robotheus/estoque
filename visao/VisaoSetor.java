@@ -19,70 +19,68 @@ public class VisaoSetor {
 
             op = sc.nextInt();
 
-            switch(op) {
-                case 0: 
-                    return;
-                
-                case 1:
-                    System.out.println("Digite o NOME do novo SETOR: ");
-                    sc.nextLine();
-                    String name = sc.nextLine();
-                        
-                    Setor novoSetor = new Setor(name);
-                    banco.getPersistenteSetor().adicionarObjeto(novoSetor);
-
-                    System.out.println("BEM CADASTRADO! ID: " + novoSetor.getId());
-                    System.out.println();
-                    break;
-                        
-                case 2:
-                    System.out.println("Digite o NOME do SETOR a ser REMOVIDO:");
-                    sc.nextLine();
-                    String removeName = sc.nextLine();
-                        
-                    Entidade a = banco.getPersistenteSetor().buscaPorName(removeName);
-                    if(a != null) banco.getPersistenteSetor().removerObjeto(a);
-                    else System.out.println("SETOR NÃO ENCONTRADO!");
-                        
-                    System.out.println();
-                    break;
-                        
-                case 3:
-                    System.out.println("Digite o NOME do novo USUÁRIO CHEFE:");
-                    sc.nextLine();
-                    String newChefe = sc.nextLine();
-                    System.out.println("Digite o NOME do setor a ser ALTERADO:");
-                    String setorAlterado = sc.nextLine();
-                        
-                    Setor aux1 = (Setor) banco.getPersistenteSetor().buscaPorName(setorAlterado);
-                    Usuario aux2 = (Usuario) banco.getPersistenteUsuario().buscaPorName(newChefe);
-                        
-                    if(aux1 != null){
-                        if(aux2 != null){
-                            aux1.setUserChefe(aux2);
-                        } else System.out.println("USUARIO NÃO ENCONTRADO!");
-                    } else System.out.println("SETOR NÃO ENCONTRADO!");
-                        
-                    System.out.println();
-                    break;
+            try{
+                switch(op) {
+                    case 0: 
+                        return;
                     
-                case 4:
-                    System.out.println("Digite o ID para visualização:");
-                    int idSearch = sc.nextInt();
+                    case 1:
+                        System.out.println("Digite o NOME do novo SETOR: ");
+                        sc.nextLine();
+                        String name = sc.nextLine();
+                            
+                        Setor novoSetor = new Setor(name);
+                        banco.getPersistenteSetor().adicionarObjeto(novoSetor);
+    
+                        System.out.println("BEM CADASTRADO! ID: " + novoSetor.getId());
+                        System.out.println();
+                        break;
+                            
+                    case 2:
+                        System.out.println("Digite o NOME do SETOR a ser REMOVIDO:");
+                        sc.nextLine();
+                        String removeName = sc.nextLine();
+                            
+                        Entidade a = banco.getPersistenteSetor().buscaPorName(removeName);
+                        banco.getPersistenteSetor().removerObjeto(a);
+                            
+                        System.out.println();
+                        break;
+                            
+                    case 3:
+                        System.out.println("Digite o NOME do novo USUÁRIO CHEFE:");
+                        sc.nextLine();
+                        String newChefe = sc.nextLine();
+                        System.out.println("Digite o NOME do setor a ser ALTERADO:");
+                        String setorAlterado = sc.nextLine();
+                            
+                        Setor aux1 = (Setor) banco.getPersistenteSetor().buscaPorName(setorAlterado);
+                        Usuario aux2 = (Usuario) banco.getPersistenteUsuario().buscaPorName(newChefe);
+                            
+                        aux1.setUserChefe(aux2);
+                            
+                        System.out.println();
+                        break;
                         
-                    Entidade aux3 = banco.getPersistenteSetor().buscaPorId(idSearch);
-                    if(aux3 != null) System.out.println(aux3);
-                    else System.out.println("ID NÃO ENCONTRADO!");
+                    case 4:
+                        System.out.println("Digite o ID para visualização:");
+                        int idSearch = sc.nextInt();
+                            
+                        Entidade aux3 = banco.getPersistenteSetor().buscaPorId(idSearch);
+                        System.out.println(aux3);
+                            
+                        System.out.println();
+                        break;
                         
-                    System.out.println();
-                    break;
-                    
-                case 5:
-                    banco.getPersistenteSetor().visualizarTudo();
-                    
-                default:
-                    break;
-            }    
+                    case 5:
+                        banco.getPersistenteSetor().visualizarTudo();
+                        
+                    default:
+                        break;
+                }
+            } catch(Excecao e){
+                System.out.println("BUSCA INVALIDA: " + e.getMessage());
+            }         
         }
     }
 }
