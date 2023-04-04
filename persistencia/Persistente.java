@@ -19,25 +19,26 @@ public class Persistente {
         persistencia.remove(instancia);
     }
 
-    public Entidade buscaPorId(int id) {
+    public Entidade buscaPorId(int id) throws Excecao {
         for (Entidade x : persistencia) {
             if (x.getId() == id) {
                 return x;
             }
         }
         
-        return null; //se nao encontrar aquele id
+        throw new Excecao("ID NÃO ENCONTRADO!");
     }
 
-    public Entidade buscaPorName(String name){
+    public Entidade buscaPorName(String name) throws Excecao {
         for (Entidade x : persistencia) {
             if (name.equals(x.getName())) {
                 return x;
             }
         }
         
-        return null; //se nao encontrar aquele nome
+        throw new Excecao("NOME NÃO ENCONTRADO!");
     }
+
     public void visualizarTudo(){
         for(Entidade x : persistencia){
             System.out.println("ID: " + x.getId() + ", NOME: " + x.getName());
