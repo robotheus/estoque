@@ -1,5 +1,6 @@
 package visao;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import modelo.*;
 import persistencia.*;
@@ -80,7 +81,10 @@ public class VisaoSetor {
                 }
             } catch(Excecao e){
                 System.out.println("BUSCA INVALIDA: " + e.getMessage());
-            }         
+            } catch(InputMismatchException e){
+                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
+                sc.nextLine();
+            }       
         }
     }
 }

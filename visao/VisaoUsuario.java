@@ -1,5 +1,6 @@
 package visao;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import modelo.*;
@@ -83,6 +84,9 @@ public class VisaoUsuario {
                 }
             } catch (Excecao e) {
                 System.out.println("BUSCA INVALIDA: " + e.getMessage());
+            } catch (InputMismatchException a) {
+                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
+                sc.nextLine();
             }
             
         }
