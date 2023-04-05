@@ -41,7 +41,8 @@ public class Persistente {
 
     public void visualizarTudo(){
         for(Entidade x : persistencia){
-            System.out.println("ID: " + x.getId() + ", NOME: " + x.getName());
+            if(x.getName() != null) System.out.println("ID: " + x.getId() + ", NOME: " + x.getName());
+            else System.out.println("ID: " + x.getId());
         }
     }
 }
