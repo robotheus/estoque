@@ -30,7 +30,7 @@ public class VisaoUsuario {
                         System.out.println("Digite o NOME do novo USARIO: ");
                         sc.nextLine();
                         String nameUser = sc.nextLine();
-    
+                        if(nameUser.isEmpty()) throw new NullPointerException();
                         Usuario novoUsuario = new Usuario(nameUser);
                         banco.getPersistenteUsuario().adicionarObjeto(novoUsuario);
                         
@@ -42,7 +42,7 @@ public class VisaoUsuario {
                         System.out.println("Digite o NOME do USUARIO a ser REMOVIDO:");
                         sc.nextLine();
                         String removeName = sc.nextLine();
-                            
+                        if(removeName.isEmpty()) throw new NullPointerException();
                         Entidade b = banco.getPersistenteUsuario().buscaPorName(removeName);
                         banco.getPersistenteUsuario().removerObjeto(b);
                             
@@ -53,9 +53,11 @@ public class VisaoUsuario {
                         System.out.println("Digite o NOME do USUÁRIO a ser ALTERADO:");
                         sc.nextLine();
                         String userAlterado = sc.nextLine();
+                        if(userAlterado.isEmpty()) throw new NullPointerException();
                         System.out.println("Digite o NOME do NOVO SETOR do USUARIO:");
                         String newSetorAlterado = sc.nextLine();
-                            
+                        if(newSetorAlterado.isEmpty()) throw new NullPointerException();
+                        
                         Usuario aux1 = (Usuario) banco.getPersistenteUsuario().buscaPorName(userAlterado);
                         Setor aux2 = (Setor) banco.getPersistenteSetor().buscaPorName(newSetorAlterado);
                             
@@ -66,7 +68,6 @@ public class VisaoUsuario {
                         
                     case 4:
                         System.out.println("Digite o ID para visualização:");
-                        
                         int idSearch = sc.nextInt();
                             
                         Entidade aux3 = banco.getPersistenteUsuario().buscaPorId(idSearch);
@@ -83,11 +84,13 @@ public class VisaoUsuario {
                         break;
                 }
             } catch (Excecao e) {
-                System.out.println("BUSCA INVALIDA: " + e.getMessage());
+                System.out.println("ERRO: " + e.getMessage());
             } catch (InputMismatchException a) {
                 System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
                 sc.nextLine();
-            }
+            } catch(NullPointerException e){
+                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
+            } 
             
         }
     }

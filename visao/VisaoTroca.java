@@ -28,10 +28,13 @@ public class VisaoTroca {
                         System.out.println("Qual o setor de ORIGEM do produto?");
                         sc.nextLine();
                         String origem = sc.nextLine();
+                        if(origem.isEmpty()) throw new NullPointerException();
                         System.out.println("Qual o SEU SETOR?");
                         String destino = sc.nextLine();
+                        if(destino.isEmpty()) throw new NullPointerException();
                         System.out.println("Qual bem deseja requisitar para seu setor?");
                         String b = sc.nextLine();
+                        if(b.isEmpty()) throw new NullPointerException();
     
                         Setor SetorOri = (Setor) banco.getPersistenteSetor().buscaPorName(origem);
                         Setor SetorDest = (Setor) banco.getPersistenteSetor().buscaPorName(destino);
@@ -55,17 +58,19 @@ public class VisaoTroca {
                             System.out.println("Digite o nome do BEM que deseja ADICIONAR:");
                             sc.nextLine();
                             String n = sc.nextLine();
-                            
+                            if(n.isEmpty()) throw new NullPointerException();
+
                             Bem k = (Bem) banco.getPersistenteBem().buscaPorName(n);
                             x.addCarrinho(k); //adcionar ao carrinho
                         } else if(g == 2){
                             System.out.println("Digite o nome do BEM que deseja REMOVER:");
                             sc.nextLine();
                             String n = sc.nextLine();
+                            if(n.isEmpty()) throw new NullPointerException();
 
                             Bem k = (Bem) banco.getPersistenteBem().buscaPorName(n);
                             x.removeCarrinho(k); //remove ao carrinho
-                            }
+                        }
     
                         break;
                             
@@ -101,11 +106,13 @@ public class VisaoTroca {
                         break;
                 }
             } catch (Excecao e) {
-                System.out.println("BUSCA INVALIDA: " + e.getMessage());
+                System.out.println("ERRO: " + e.getMessage());
             } catch(InputMismatchException a){
                 System.out.println("CAMPO PREENCHIDO INCORRETAMENTE!");
                 sc.nextLine();
-            }   
+            } catch(NullPointerException e){
+                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
+            } 
         }
     }
 }

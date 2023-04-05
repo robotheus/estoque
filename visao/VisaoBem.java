@@ -28,9 +28,11 @@ public class VisaoBem {
                         System.out.println("Digite o NOME do novo BEM: ");
                         sc.nextLine();
                         String nameBem = sc.nextLine();
+                        if(nameBem.isEmpty()) throw new NullPointerException();
                         System.out.println("Digite o SETOR do novo BEM: ");
                         String setorBem = sc.nextLine();
-                        
+                        if(setorBem.isEmpty()) throw new NullPointerException();
+
                         Setor s = (Setor) banco.getPersistenteSetor().buscaPorName(setorBem);
                         Bem novoBem = new Bem(nameBem, s);
                         banco.getPersistenteBem().adicionarObjeto(novoBem);
@@ -42,7 +44,8 @@ public class VisaoBem {
                         System.out.println("Digite o NOME do BEM a ser REMOVIDO:");
                         sc.nextLine();
                         String removeBem = sc.nextLine();
-                            
+                        if(removeBem.isEmpty()) throw new NullPointerException();    
+                        
                         Bem b = (Bem) banco.getPersistenteBem().buscaPorName(removeBem);
                         banco.getPersistenteBem().removerObjeto(b);
                             
@@ -53,8 +56,10 @@ public class VisaoBem {
                         System.out.println("Digite o NOME do BEM a ser ALTERADO:");
                         sc.nextLine();
                         String bemAlterado = sc.nextLine();
+                        if(bemAlterado.isEmpty()) throw new NullPointerException();
                         System.out.println("Digite o NOVO SETOR do bem:");
                         String newSetor = sc.nextLine();
+                        if(newSetor.isEmpty()) throw new NullPointerException();
                             
                         Bem aux1 = (Bem) banco.getPersistenteBem().buscaPorName(bemAlterado);
                         Setor aux2 = (Setor) banco.getPersistenteSetor().buscaPorName(newSetor);
@@ -83,11 +88,13 @@ public class VisaoBem {
                         break;
                 }
             } catch(Excecao e){
-                System.out.println("BUSCA INVALIDA: " + e.getMessage());
+                System.out.println("ERRO: " + e.getMessage());
             } catch(InputMismatchException a){
                 System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
                 sc.nextLine();
-            }   
+            } catch(NullPointerException e){
+                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
+            } 
         }
     }
 }

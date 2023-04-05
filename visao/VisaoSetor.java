@@ -28,7 +28,8 @@ public class VisaoSetor {
                         System.out.println("Digite o NOME do novo SETOR: ");
                         sc.nextLine();
                         String name = sc.nextLine();
-                            
+                        if(name.isEmpty()) throw new NullPointerException();
+
                         Setor novoSetor = new Setor(name);
                         banco.getPersistenteSetor().adicionarObjeto(novoSetor);
     
@@ -40,7 +41,8 @@ public class VisaoSetor {
                         System.out.println("Digite o NOME do SETOR a ser REMOVIDO:");
                         sc.nextLine();
                         String removeName = sc.nextLine();
-                            
+                        if(removeName.isEmpty()) throw new NullPointerException();
+    
                         Entidade a = banco.getPersistenteSetor().buscaPorName(removeName);
                         banco.getPersistenteSetor().removerObjeto(a);
                             
@@ -51,9 +53,11 @@ public class VisaoSetor {
                         System.out.println("Digite o NOME do novo USUÁRIO CHEFE:");
                         sc.nextLine();
                         String newChefe = sc.nextLine();
+                        if(newChefe.isEmpty()) throw new NullPointerException();
                         System.out.println("Digite o NOME do setor a ser ALTERADO:");
                         String setorAlterado = sc.nextLine();
-                            
+                        if(setorAlterado.isEmpty()) throw new NullPointerException();
+                        
                         Setor aux1 = (Setor) banco.getPersistenteSetor().buscaPorName(setorAlterado);
                         Usuario aux2 = (Usuario) banco.getPersistenteUsuario().buscaPorName(newChefe);
                             
@@ -81,11 +85,13 @@ public class VisaoSetor {
                         break;
                 }
             } catch(Excecao e){
-                System.out.println("BUSCA INVALIDA: " + e.getMessage());
+                System.out.println("ERRO: " + e.getMessage());
             } catch(InputMismatchException e){
-                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
+                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! DIGITE NOVAMENTE.");
                 sc.nextLine();
-            }       
+            } catch(NullPointerException e){
+                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
+            }
         }
     }
 }
