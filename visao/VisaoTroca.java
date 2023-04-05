@@ -57,19 +57,15 @@ public class VisaoTroca {
                             String n = sc.nextLine();
                             
                             Bem k = (Bem) banco.getPersistenteBem().buscaPorName(n);
-                            x.getBemTroca().add(k); //add um bem a troda id x
                             x.addCarrinho(k); //adcionar ao carrinho
-                            x.getCarrinho().setqtdBensNoCarrinho(x.getCarrinho().getqtdBensNoCarrinho() + 1); //atualiza a quantidade de bens no carrinho
                         } else if(g == 2){
                             System.out.println("Digite o nome do BEM que deseja REMOVER:");
                             sc.nextLine();
                             String n = sc.nextLine();
 
                             Bem k = (Bem) banco.getPersistenteBem().buscaPorName(n);
-                            x.getBemTroca().remove(k); //remove um bem a troda id x
                             x.removeCarrinho(k); //remove ao carrinho
-                            x.getCarrinho().setqtdBensNoCarrinho(x.getCarrinho().getqtdBensNoCarrinho() - 1); //atualiza a quantidade de bens no carrinho
-                        }
+                            }
     
                         break;
                             
@@ -92,9 +88,7 @@ public class VisaoTroca {
                             
                         Entidade aux3 = banco.getPersistenteTroca().buscaPorId(idSearch);
                         
-                        System.out.println(aux3);
-                        System.out.println("ID NÃO ENCONTRADO!");
-                            
+                        System.out.println(aux3);    
                         System.out.println();
                         break;
                         
