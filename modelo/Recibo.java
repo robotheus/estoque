@@ -7,7 +7,7 @@ public class Recibo {
     private ArrayList<Bem> bens;
 
     public Recibo(ArrayList<Bem> todosBens){
-        this.qtdBensNoCarrinho = 0;
+        this.qtdBensNoCarrinho = 1;
         bens = todosBens;
     }
 
@@ -24,6 +24,6 @@ public class Recibo {
     }
 
     public String toString() {
-        return "ResumoTroca [qtdBensNoCarrinho=" + qtdBensNoCarrinho + ", bens=" + bens + "]";
+        return "RECIBO: [Quantidade de itens trocados = " + qtdBensNoCarrinho + ", bens = " + bens.toString() + "]";
     }
 }

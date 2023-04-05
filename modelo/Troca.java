@@ -51,9 +51,6 @@ public class Troca extends Entidade{
     }
 
     public String toString() {
-        return super.toString() + "Troca [setOrigem=" + setOrigem + ", setDestino=" + setDestino + ", bemTroca=" + bemTroca + ", carrinho="
-                + carrinho + "]";
+        return super.toString() + ", setOrigem = " + setOrigem.getName() + ", setDestino = " + setDestino.getName() + ", bem = " + bemTroca.toString() + "]";
     }
-
-    
 }
