@@ -17,7 +17,7 @@ public class Bem extends Entidade{
     }
 
     public String toString() {
-        if(setor.getUserChefe() != null) return super.toString() + ", setor = " + setor.getName() + ", responsavel = " + setor.getUserChefe() + "]";
+        if(setor.getUserChefe() != null) return super.toString() + ", setor = " + setor.getName() + ", responsavel = " + setor.getUserChefe().getName() + "]";
         else return super.toString() + ", setor = " + setor.getName() + "]";
     }
 }

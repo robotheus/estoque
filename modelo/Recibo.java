@@ -24,6 +24,12 @@ public class Recibo {
     }
 
     public String toString() {
-        return "RECIBO: [Quantidade de itens trocados = " + qtdBensNoCarrinho + ", bens = " + bens.toString() + "]";
+        String a = "RECIBO: [Quantidade de itens trocados = " + qtdBensNoCarrinho + ", bens = ";
+        for(Bem x : bens){
+            a += x.getName();
+            a += ", ";
+        }
+
+        return a + "]";
     }
 }

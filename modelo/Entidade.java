@@ -30,6 +30,7 @@ public abstract class Entidade {
     }
 
     public String toString() {
-        return "[id = " + id + ", name = " + name;
+        if (this.name != null) return "[id = " + id + ", name = " + name;
+        else return "[id = " + id;
     }  
 }
