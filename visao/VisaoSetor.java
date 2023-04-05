@@ -18,9 +18,8 @@ public class VisaoSetor {
             System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
             System.out.println("    Digite 5 para VISUALIZAR TODOS.");
 
-            op = sc.nextInt();
-
             try{
+                op = sc.nextInt();
                 switch(op) {
                     case 0: 
                         return;
@@ -33,7 +32,7 @@ public class VisaoSetor {
                         Setor novoSetor = new Setor(name);
                         banco.getPersistenteSetor().adicionarObjeto(novoSetor);
     
-                        System.out.println("BEM CADASTRADO! ID: " + novoSetor.getId());
+                        System.out.println("SETOR CADASTRADO! ID: " + novoSetor.getId());
                         System.out.println();
                         break;
                             
@@ -75,8 +74,10 @@ public class VisaoSetor {
                         
                     case 5:
                         banco.getPersistenteSetor().visualizarTudo();
+                        break;
                         
                     default:
+                        System.out.println("Opção inválida. Escolha novamente.");
                         break;
                 }
             } catch(Excecao e){

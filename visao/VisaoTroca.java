@@ -18,9 +18,8 @@ public class VisaoTroca {
             System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
             System.out.println("    Digite 5 para VISUALIZAR TODOS.");
 
-            op = sc.nextInt();
-
             try {
+                op = sc.nextInt();
                 switch(op) {
                     case 0: 
                         return;
@@ -32,7 +31,6 @@ public class VisaoTroca {
                         System.out.println("Qual o SEU SETOR?");
                         String destino = sc.nextLine();
                         System.out.println("Qual bem deseja requisitar para seu setor?");
-                        sc.nextLine();
                         String b = sc.nextLine();
     
                         Setor SetorOri = (Setor) banco.getPersistenteSetor().buscaPorName(origem);
@@ -92,7 +90,7 @@ public class VisaoTroca {
                         System.out.println("Digite o ID para visualização:");
                         int idSearch = sc.nextInt();
                             
-                        Entidade aux3 = banco.getPersistenteBem().buscaPorId(idSearch);
+                        Entidade aux3 = banco.getPersistenteTroca().buscaPorId(idSearch);
                         
                         System.out.println(aux3);
                         System.out.println("ID NÃO ENCONTRADO!");
@@ -101,13 +99,18 @@ public class VisaoTroca {
                         break;
                         
                     case 5:
-                        banco.getPersistenteBem().visualizarTudo();
-                        break; 
+                        banco.getPersistenteTroca().visualizarTudo();
+                        break;
+                    
+                    default:
+                        System.out.println("Opção inválida. Escolha novamente.");
+                        break;
                 }
             } catch (Excecao e) {
                 System.out.println("BUSCA INVALIDA: " + e.getMessage());
             } catch(InputMismatchException a){
                 System.out.println("CAMPO PREENCHIDO INCORRETAMENTE!");
+                sc.nextLine();
             }   
         }
     }

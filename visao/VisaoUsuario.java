@@ -20,9 +20,8 @@ public class VisaoUsuario {
             System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
             System.out.println("    Digite 5 para VISUALIZAR TODOS.");
 
-            op = sc.nextInt();
-            
             try {
+                op = sc.nextInt();
                 switch(op) {
                     case 0:
                         return;
@@ -58,7 +57,7 @@ public class VisaoUsuario {
                         String newSetorAlterado = sc.nextLine();
                             
                         Usuario aux1 = (Usuario) banco.getPersistenteUsuario().buscaPorName(userAlterado);
-                        Setor aux2 = (Setor) banco.getPersistenteUsuario().buscaPorName(newSetorAlterado);
+                        Setor aux2 = (Setor) banco.getPersistenteSetor().buscaPorName(newSetorAlterado);
                             
                         aux1.setSetor(aux2);
                             
@@ -73,13 +72,14 @@ public class VisaoUsuario {
                         Entidade aux3 = banco.getPersistenteUsuario().buscaPorId(idSearch);
                         System.out.println(aux3);
                         
-                        System.out.println();
                         break;
                         
                     case 5:
                         banco.getPersistenteUsuario().visualizarTudo();
+                        break;
                         
                     default:
+                        System.out.println("Opção inválida. Escolha novamente.");
                         break;
                 }
             } catch (Excecao e) {

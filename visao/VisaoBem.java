@@ -18,9 +18,8 @@ public class VisaoBem {
             System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
             System.out.println("    Digite 5 para VISUALIZAR TODOS.");
 
-            op = sc.nextInt();
-        
             try{
+                op = sc.nextInt();
                 switch(op){
                     case 0:
                         return;
@@ -44,8 +43,8 @@ public class VisaoBem {
                         sc.nextLine();
                         String removeBem = sc.nextLine();
                             
-                        Bem b = (Bem) banco.getPersistenteUsuario().buscaPorName(removeBem);
-                        banco.getPersistenteUsuario().removerObjeto(b);
+                        Bem b = (Bem) banco.getPersistenteBem().buscaPorName(removeBem);
+                        banco.getPersistenteBem().removerObjeto(b);
                             
                         System.out.println();
                         break;
@@ -72,7 +71,6 @@ public class VisaoBem {
                         Entidade aux3 = banco.getPersistenteBem().buscaPorId(idSearch);
                         
                         System.out.println(aux3);
-                            
                         System.out.println();
                         break;
                         
@@ -81,6 +79,7 @@ public class VisaoBem {
                         break; 
                         
                     default:
+                        System.out.println("Opção inválida. Escolha novamente.");
                         break;
                 }
             } catch(Excecao e){

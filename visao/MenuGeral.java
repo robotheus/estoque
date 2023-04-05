@@ -41,6 +41,7 @@ public class MenuGeral {
                         break;
                     
                     default:
+                        System.out.println("Opção inválida. Escolha novamente.");
                         break;
                 }
             } catch (InputMismatchException e) {
