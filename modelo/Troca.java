@@ -57,7 +57,8 @@ public class Troca extends Entidade{
             a += x.getName();
             a += ", ";
         }
-
+        
+        a = a.substring(0, a.length() - 2);
         return a + "]";
     }
 }

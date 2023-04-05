@@ -30,6 +30,7 @@ public class Recibo {
             a += ", ";
         }
 
+        a = a.substring(0, a.length() - 2);
         return a + "]";
     }
 }
