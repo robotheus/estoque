@@ -17,7 +17,7 @@ public class Usuario extends Entidade{
     }
 
     public String toString() {
-        if(setor != null) return super.toString() + ", setor = " + setor.getName() + "]";
+        if(setor.getName() != null) return super.toString() + ", setor = " + setor.getName() + "]";
         else return super.toString() + "]";
     }
 }
