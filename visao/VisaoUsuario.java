@@ -72,6 +72,7 @@ public class VisaoUsuario {
                             
                         Entidade aux3 = banco.getPersistenteUsuario().buscaPorId(idSearch);
                         System.out.println(aux3);
+                        System.out.println();
                         
                         break;
                         
