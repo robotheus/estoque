@@ -1,97 +1,238 @@
 package visao;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import modelo.*;
-import persistencia.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class VisaoSetor {
-    public static void MenuSetor(BancoDeDados banco, Scanner sc){
-        int op;
+public class VisaoSetor extends JFrame {
+    public VisaoSetor(JPanel painelAnterior) {
+        setTitle("Stocker - Menu Setor");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 300);
+        setLocationRelativeTo(null);
 
-        while(true){
-            System.out.println("--------------------SETOR--------------------");
-            System.out.println("    Digite 0 para RETORNAR ao menu inicial.");
-            System.out.println("    Digite 1 para CADASTRAR um SETOR.");
-            System.out.println("    Digite 2 para REMOVER um SETOR.");
-            System.out.println("    Digite 3 para ALTERAR o SETOR (Usuário Chefe).");
-            System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
-            System.out.println("    Digite 5 para VISUALIZAR TODOS.");
+        JCheckBox cadastrarBox = new JCheckBox("Cadastrar setor");
+        JCheckBox removerBox = new JCheckBox("Remover setor");
+        JCheckBox alterarBox = new JCheckBox("Alterar setor");
+        JCheckBox visualizarBox = new JCheckBox("Visualizar setor");
 
-            try{
-                op = sc.nextInt();
-                switch(op) {
-                    case 0: 
-                        return;
-                    
-                    case 1:
-                        System.out.println("Digite o NOME do novo SETOR: ");
-                        sc.nextLine();
-                        String name = sc.nextLine();
-                        if(name.isEmpty()) throw new NullPointerException();
+        JButton selecionarBotao = new JButton("Avancar");
+        JButton voltarBotao = new JButton("Voltar");
 
-                        Setor novoSetor = new Setor(name);
-                        banco.getPersistenteSetor().adicionarObjeto(novoSetor);
-    
-                        System.out.println("SETOR CADASTRADO! ID: " + novoSetor.getId());
-                        System.out.println();
-                        break;
-                            
-                    case 2:
-                        System.out.println("Digite o NOME do SETOR a ser REMOVIDO:");
-                        sc.nextLine();
-                        String removeName = sc.nextLine();
-                        if(removeName.isEmpty()) throw new NullPointerException();
-    
-                        Entidade a = banco.getPersistenteSetor().buscaPorName(removeName);
-                        banco.getPersistenteSetor().removerObjeto(a);
-                            
-                        System.out.println();
-                        break;
-                            
-                    case 3:
-                        System.out.println("Digite o NOME do novo USUÁRIO CHEFE:");
-                        sc.nextLine();
-                        String newChefe = sc.nextLine();
-                        if(newChefe.isEmpty()) throw new NullPointerException();
-                        System.out.println("Digite o NOME do setor a ser ALTERADO:");
-                        String setorAlterado = sc.nextLine();
-                        if(setorAlterado.isEmpty()) throw new NullPointerException();
-                        
-                        Setor aux1 = (Setor) banco.getPersistenteSetor().buscaPorName(setorAlterado);
-                        Usuario aux2 = (Usuario) banco.getPersistenteUsuario().buscaPorName(newChefe);
-                            
-                        aux1.setUserChefe(aux2);
-                            
-                        System.out.println();
-                        break;
-                        
-                    case 4:
-                        System.out.println("Digite o ID para visualização:");
-                        int idSearch = sc.nextInt();
-                            
-                        Entidade aux3 = banco.getPersistenteSetor().buscaPorId(idSearch);
-                        System.out.println(aux3);
-                            
-                        System.out.println();
-                        break;
-                        
-                    case 5:
-                        banco.getPersistenteSetor().visualizarTudo();
-                        break;
-                        
-                    default:
-                        System.out.println("Opção inválida. Escolha novamente.");
-                        break;
-                }
-            } catch(Excecao e){
-                System.out.println("ERRO: " + e.getMessage());
-            } catch(InputMismatchException e){
-                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! DIGITE NOVAMENTE.");
-                sc.nextLine();
-            } catch(NullPointerException e){
-                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
+        JPanel painel = new JPanel();
+        painel.setLayout(new BorderLayout());
+        
+        JPanel boxesPainel = new JPanel();
+        boxesPainel.add(cadastrarBox);
+        boxesPainel.add(removerBox);
+        boxesPainel.add(alterarBox);
+        boxesPainel.add(visualizarBox);
+        painel.add(boxesPainel, BorderLayout.CENTER);
+
+        JPanel botoesPainel = new JPanel();
+        botoesPainel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        botoesPainel.add(selecionarBotao);
+        botoesPainel.add(voltarBotao);
+        painel.add(botoesPainel, BorderLayout.SOUTH);
+        
+        getContentPane().add(painel);
+
+        voltarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                painelAnterior.setVisible(true);
             }
-        }
+        });
+
+        selecionarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(cadastrarBox.isSelected()){
+                    cadastroSetor();
+                } else if(removerBox.isSelected()){
+                    removeSetor();
+                } else if(alterarBox.isSelected()){
+                    alteraSetor();
+                } else if(visualizarBox.isSelected()){
+                    visualizar();
+                }
+            }
+        });
+
+        ActionListener checkboxListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == cadastrarBox && cadastrarBox.isSelected()) {
+                    removerBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == removerBox && removerBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == alterarBox && alterarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    removerBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == visualizarBox && visualizarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    removerBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                }
+            }
+        };
+
+        cadastrarBox.addActionListener(checkboxListener);
+        removerBox.addActionListener(checkboxListener);
+        alterarBox.addActionListener(checkboxListener);
+        visualizarBox.addActionListener(checkboxListener);
+
+        setVisible(true);
+    }
+
+    public void cadastroSetor(){
+        JFrame frame = new JFrame("Cadastrar de Setor");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
+
+        JPanel painel = new JPanel();
+        JLabel titleLabel = new JLabel("Digite o nome do Setor");
+        painel.add(titleLabel);
+
+        JTextField textField = new JTextField(20);
+        painel.add(textField);
+
+        JButton cadastrarButton = new JButton("Cadastrar");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String setor = textField.getText();
+            }
+        });
+        painel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        painel.add(voltarButton);
+        frame.getContentPane().add(painel);
+        frame.setVisible(true);
+    }
+
+    public void removeSetor(){
+        JFrame frame = new JFrame("Remover de Setor");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel titleLabel = new JLabel("Digite o nome do Setor");
+        panel.add(titleLabel);
+
+        JTextField textField = new JTextField(20);
+        panel.add(textField);
+
+        JButton cadastrarButton = new JButton("Remover");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String setor = textField.getText();
+            }
+        });
+        panel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+    public void alteraSetor(){
+        JFrame frame = new JFrame("Remover de Setor");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel setorLabel = new JLabel("Digite o nome do setor:");
+        panel.add(setorLabel);
+
+        JTextField setorTextField = new JTextField(20);
+        panel.add(setorTextField);
+
+        JLabel usuarioLabel = new JLabel("Digite o nome do usuario chefe:");
+        panel.add(usuarioLabel);
+
+        JTextField usuarioTextField = new JTextField(20);
+        panel.add(usuarioTextField);
+
+        JButton cadastrarButton = new JButton("Alterar");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String setor = setorTextField.getText();
+                String usuario = usuarioTextField.getText();
+            }
+        });
+        panel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+    public void visualizar(){
+        JFrame frame = new JFrame("Visualizar Setor");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel titleLabel = new JLabel("Digite o id do Setor:");
+        panel.add(titleLabel);
+
+        JTextField textField = new JTextField(20);
+        panel.add(textField);
+
+        JButton cadastrarButton = new JButton("Buscar o ID");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String id = textField.getText();
+                // Lógica para remover o setor
+            }
+        });
+        panel.add(cadastrarButton);
+
+        JButton visualizarButton = new JButton("Visualizar Todos");
+        visualizarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para visualizar todos os setores
+            }
+        });
+        panel.add(visualizarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
     }
 }
+

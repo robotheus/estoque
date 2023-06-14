@@ -1,100 +1,138 @@
 package visao;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import modelo.*;
-import persistencia.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class VisaoBem {
-    public static void MenuBem(BancoDeDados banco, Scanner sc){
-        int op;
+public class VisaoBem extends JFrame {
+    private JCheckBox cadastrarBox;
+    private JCheckBox removerBox;
+    private JCheckBox alterarBox;
+    private JCheckBox visualizarBox;
+    private JButton selecionarBotao;
+    private JButton voltarBotao;
+    
+    public VisaoBem(JPanel painelAnterior) {
+        setTitle("Stocker - Menu Bem");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 300);
+        setLocationRelativeTo(null);
 
-        while(true){
-            System.out.println("--------------------BEM--------------------");
-            System.out.println("    Digite 0 para RETORNAR ao menu inicial.");
-            System.out.println("    Digite 1 para CADASTRAR um BEM.");
-            System.out.println("    Digite 2 para REMOVER um BEM.");
-            System.out.println("    Digite 3 para ALTERAR o BEM (setor).");
-            System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
-            System.out.println("    Digite 5 para VISUALIZAR TODOS.");
+        cadastrarBox = new JCheckBox("Cadastrar bem");
+        removerBox = new JCheckBox("Remover bem");
+        alterarBox = new JCheckBox("Alterar bem");
+        visualizarBox = new JCheckBox("Visualizar bem");
 
-            try{
-                op = sc.nextInt();
-                switch(op){
-                    case 0:
-                        return;
+        selecionarBotao = new JButton("Avancar");
+        voltarBotao = new JButton("Voltar");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new BorderLayout());
         
-                    case 1:
-                        System.out.println("Digite o NOME do novo BEM: ");
-                        sc.nextLine();
-                        String nameBem = sc.nextLine();
-                        if(nameBem.isEmpty()) throw new NullPointerException();
-                        System.out.println("Digite o SETOR do novo BEM: ");
-                        String setorBem = sc.nextLine();
-                        if(setorBem.isEmpty()) throw new NullPointerException();
+        JPanel boxesPainel = new JPanel();
+        boxesPainel.add(cadastrarBox);
+        boxesPainel.add(removerBox);
+        boxesPainel.add(alterarBox);
+        boxesPainel.add(visualizarBox);
+        painel.add(boxesPainel, BorderLayout.CENTER);
 
-                        Setor s = (Setor) banco.getPersistenteSetor().buscaPorName(setorBem);
-                        Bem novoBem = new Bem(nameBem, s);
-                        banco.getPersistenteBem().adicionarObjeto(novoBem);
-                        System.out.println("BEM CADASTRADO! ID: " + novoBem.getId());
-                        System.out.println();
-                        break;
-                            
-                    case 2:
-                        System.out.println("Digite o NOME do BEM a ser REMOVIDO:");
-                        sc.nextLine();
-                        String removeBem = sc.nextLine();
-                        if(removeBem.isEmpty()) throw new NullPointerException();    
-                        
-                        Bem b = (Bem) banco.getPersistenteBem().buscaPorName(removeBem);
-                        banco.getPersistenteBem().removerObjeto(b);
-                            
-                        System.out.println();
-                        break;
-                            
-                    case 3:
-                        System.out.println("Digite o NOME do BEM a ser ALTERADO:");
-                        sc.nextLine();
-                        String bemAlterado = sc.nextLine();
-                        if(bemAlterado.isEmpty()) throw new NullPointerException();
-                        System.out.println("Digite o NOVO SETOR do bem:");
-                        String newSetor = sc.nextLine();
-                        if(newSetor.isEmpty()) throw new NullPointerException();
-                            
-                        Bem aux1 = (Bem) banco.getPersistenteBem().buscaPorName(bemAlterado);
-                        Setor aux2 = (Setor) banco.getPersistenteSetor().buscaPorName(newSetor);
-                        
-                        aux1.setSetor(aux2);
-                        
-                        System.out.println();
-                        break;
-                        
-                    case 4:
-                        System.out.println("Digite o ID para visualização:");
-                        int idSearch = sc.nextInt();
-                            
-                        Entidade aux3 = banco.getPersistenteBem().buscaPorId(idSearch);
-                        
-                        System.out.println(aux3);
-                        System.out.println();
-                        break;
-                        
-                    case 5:
-                        banco.getPersistenteBem().visualizarTudo();
-                        break; 
-                        
-                    default:
-                        System.out.println("Opção inválida. Escolha novamente.");
-                        break;
+        JPanel botoesPainel = new JPanel();
+        botoesPainel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        botoesPainel.add(selecionarBotao);
+        botoesPainel.add(voltarBotao);
+        painel.add(botoesPainel, BorderLayout.SOUTH);
+        
+        getContentPane().add(painel);
+
+        voltarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                painelAnterior.setVisible(true);
+            }
+        });
+
+        selecionarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(cadastrarBox.isSelected()){
+                    cadastroBem(painel);
+                } else if(removerBox.isSelected()){
+                    cadastroBem(painel);
                 }
-            } catch(Excecao e){
-                System.out.println("ERRO: " + e.getMessage());
-            } catch(InputMismatchException a){
-                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
-                sc.nextLine();
-            } catch(NullPointerException e){
-                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
-            } 
-        }
+            }
+        });
+
+        ActionListener checkboxListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == cadastrarBox && cadastrarBox.isSelected()) {
+                    removerBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == removerBox && removerBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == alterarBox && alterarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    removerBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == visualizarBox && visualizarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    removerBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                }
+            }
+        };
+
+        cadastrarBox.addActionListener(checkboxListener);
+        removerBox.addActionListener(checkboxListener);
+        alterarBox.addActionListener(checkboxListener);
+        visualizarBox.addActionListener(checkboxListener);
+
+        setVisible(true);
+    }
+
+    public void cadastroBem(JPanel painelAnterior){
+        JTextField textField;
+
+        setTitle("Cadastro de bem.");
+        setSize(400, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        getContentPane().add(panel);
+        panel.setLayout(null);
+
+        JLabel label = new JLabel("Digite o nome do bem:");
+        label.setBounds(10, 10, 200, 30);
+        panel.add(label);
+
+        textField = new JTextField();
+        textField.setBounds(10, 50, 200, 30);
+        panel.add(textField);
+
+        JButton cadastrarButton = new JButton("Cadastro");
+        cadastrarButton.setBounds(10, 90, 100, 30);
+        panel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.setBounds(120, 90, 100, 30);
+        panel.add(voltarButton);
+
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        setVisible(true);
     }
 }
+

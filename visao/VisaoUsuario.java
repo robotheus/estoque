@@ -1,98 +1,138 @@
 package visao;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import modelo.*;
-import persistencia.BancoDeDados;
-import persistencia.Excecao;
+public class VisaoUsuario extends JFrame {
+    private JCheckBox cadastrarBox;
+    private JCheckBox removerBox;
+    private JCheckBox alterarBox;
+    private JCheckBox visualizarBox;
+    private JButton selecionarBotao;
+    private JButton voltarBotao;
+    
+    public VisaoUsuario(JPanel painelAnterior) {
+        setTitle("Stocker - Menu Usuario");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 300);
+        setLocationRelativeTo(null);
 
-public class VisaoUsuario {
-    public static void MenuUsuario(BancoDeDados banco, Scanner sc){
-        int op;
+        cadastrarBox = new JCheckBox("Cadastrar usuario");
+        removerBox = new JCheckBox("Remover usuario");
+        alterarBox = new JCheckBox("Alterar usuario");
+        visualizarBox = new JCheckBox("Visualizar usuario");
 
-        while(true){
-            System.out.println("--------------------USUARIO--------------------");
-            System.out.println("    Digite 0 para RETORNAR ao menu inicial.");
-            System.out.println("    Digite 1 para CADASTRAR um USUARIO.");
-            System.out.println("    Digite 2 para REMOVER um USUARIO.");
-            System.out.println("    Digite 3 para ALTERAR o USUARIO (Trocar/Atribuir setor).");
-            System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
-            System.out.println("    Digite 5 para VISUALIZAR TODOS.");
+        selecionarBotao = new JButton("Avancar");
+        voltarBotao = new JButton("Voltar");
 
-            try {
-                op = sc.nextInt();
-                switch(op) {
-                    case 0:
-                        return;
-                        
-                    case 1:
-                        System.out.println("Digite o NOME do novo USARIO: ");
-                        sc.nextLine();
-                        String nameUser = sc.nextLine();
-                        if(nameUser.isEmpty()) throw new NullPointerException();
-                        Usuario novoUsuario = new Usuario(nameUser);
-                        banco.getPersistenteUsuario().adicionarObjeto(novoUsuario);
-                        
-                        System.out.println("USUARIO CADASTRADO! ID: " + novoUsuario.getId());
-                        System.out.println();
-                        break;
-                            
-                    case 2:
-                        System.out.println("Digite o NOME do USUARIO a ser REMOVIDO:");
-                        sc.nextLine();
-                        String removeName = sc.nextLine();
-                        if(removeName.isEmpty()) throw new NullPointerException();
-                        Entidade b = banco.getPersistenteUsuario().buscaPorName(removeName);
-                        banco.getPersistenteUsuario().removerObjeto(b);
-                            
-                        System.out.println();
-                        break;
-                            
-                    case 3:
-                        System.out.println("Digite o NOME do USUÁRIO a ser ALTERADO:");
-                        sc.nextLine();
-                        String userAlterado = sc.nextLine();
-                        if(userAlterado.isEmpty()) throw new NullPointerException();
-                        System.out.println("Digite o NOME do NOVO SETOR do USUARIO:");
-                        String newSetorAlterado = sc.nextLine();
-                        if(newSetorAlterado.isEmpty()) throw new NullPointerException();
-                        
-                        Usuario aux1 = (Usuario) banco.getPersistenteUsuario().buscaPorName(userAlterado);
-                        Setor aux2 = (Setor) banco.getPersistenteSetor().buscaPorName(newSetorAlterado);
-                            
-                        aux1.setSetor(aux2);
-                            
-                        System.out.println();
-                        break;
-                        
-                    case 4:
-                        System.out.println("Digite o ID para visualização:");
-                        int idSearch = sc.nextInt();
-                            
-                        Entidade aux3 = banco.getPersistenteUsuario().buscaPorId(idSearch);
-                        System.out.println(aux3);
-                        System.out.println();
-                        
-                        break;
-                        
-                    case 5:
-                        banco.getPersistenteUsuario().visualizarTudo();
-                        break;
-                        
-                    default:
-                        System.out.println("Opção inválida. Escolha novamente.");
-                        break;
+        JPanel painel = new JPanel();
+        painel.setLayout(new BorderLayout());
+        
+        JPanel boxesPainel = new JPanel();
+        boxesPainel.add(cadastrarBox);
+        boxesPainel.add(removerBox);
+        boxesPainel.add(alterarBox);
+        boxesPainel.add(visualizarBox);
+        painel.add(boxesPainel, BorderLayout.CENTER);
+
+        JPanel botoesPainel = new JPanel();
+        botoesPainel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        botoesPainel.add(selecionarBotao);
+        botoesPainel.add(voltarBotao);
+        painel.add(botoesPainel, BorderLayout.SOUTH);
+        
+        getContentPane().add(painel);
+
+        voltarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                painelAnterior.setVisible(true);
+            }
+        });
+
+        selecionarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(cadastrarBox.isSelected()){
+                    cadastroUsuario(painel);
+                } else if(removerBox.isSelected()){
+                    cadastroUsuario(painel);
                 }
-            } catch (Excecao e) {
-                System.out.println("ERRO: " + e.getMessage());
-            } catch (InputMismatchException a) {
-                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
-                sc.nextLine();
-            } catch(NullPointerException e){
-                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
-            } 
-            
-        }
+            }
+        });
+
+        ActionListener checkboxListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == cadastrarBox && cadastrarBox.isSelected()) {
+                    removerBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == removerBox && removerBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == alterarBox && alterarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    removerBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == visualizarBox && visualizarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    removerBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                }
+            }
+        };
+
+        cadastrarBox.addActionListener(checkboxListener);
+        removerBox.addActionListener(checkboxListener);
+        alterarBox.addActionListener(checkboxListener);
+        visualizarBox.addActionListener(checkboxListener);
+
+        setVisible(true);
+    }
+
+    public void cadastroUsuario(JPanel painelAnterior){
+        JTextField textField;
+
+        setTitle("Cadastro de usuario.");
+        setSize(400, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        getContentPane().add(panel);
+        panel.setLayout(null);
+
+        JLabel label = new JLabel("Digite o nome do usuario:");
+        label.setBounds(10, 10, 200, 30);
+        panel.add(label);
+
+        textField = new JTextField();
+        textField.setBounds(10, 50, 200, 30);
+        panel.add(textField);
+
+        JButton cadastrarButton = new JButton("Cadastro");
+        cadastrarButton.setBounds(10, 90, 100, 30);
+        panel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.setBounds(120, 90, 100, 30);
+        panel.add(voltarButton);
+
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        setVisible(true);
     }
 }
+

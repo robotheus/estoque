@@ -1,53 +1,98 @@
 package visao;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import persistencia.BancoDeDados;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import persistencia.*;
 
-public class MenuGeral {
-    public static void Menu(BancoDeDados banco) {
-        Scanner sc = new Scanner(System.in);
-        int op;
+public class MenuGeral extends JFrame {
+    private JCheckBox setorBox;
+    private JCheckBox userBox;
+    private JCheckBox bemBox;
+    private JCheckBox trocaBox;
+    private JButton selecionarBotao;
+    private JButton sairBotao;
+
+    public MenuGeral(BancoDeDados banco) {
+        setTitle("Stocker - Menu Geral");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 300);
+        setLocationRelativeTo(null);
+
+        setorBox = new JCheckBox("Setor");
+        userBox = new JCheckBox("Usuario");
+        bemBox = new JCheckBox("Bem");
+        trocaBox = new JCheckBox("Troca");
+
+        selecionarBotao = new JButton("Avancar");
+        sairBotao = new JButton("Sair");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new BorderLayout());
         
-        while(true){
-            System.out.println("--------------------stocker--------------------");
-            System.out.println("Selecione seu tipo de usuário ou 0 para SAIR:");
-            System.out.println("    Digite 1 para SETOR.");
-            System.out.println("    Digite 2 para USUARIO.");
-            System.out.println("    Digite 3 para BEM.");
-            System.out.println("    Digite 4 para TROCA.");
-            
-            try {
-                op = sc.nextInt();
-                switch(op) {
-                    case 0:
-                        sc.close();    
-                        return;
-    
-                    case 1:
-                        VisaoSetor.MenuSetor(banco, sc);
-                        break;
-                        
-                    case 2:
-                        VisaoUsuario.MenuUsuario(banco, sc);
-                        break;
-                    
-                    case 3:
-                        VisaoBem.MenuBem(banco, sc);
-                        break; 
-                    
-                    case 4:
-                        VisaoTroca.MenuTroca(banco, sc);
-                        break;
-                    
-                    default:
-                        System.out.println("Opção inválida. Escolha novamente.");
-                        break;
+        JPanel boxesPainel = new JPanel();
+        boxesPainel.add(setorBox);
+        boxesPainel.add(userBox);
+        boxesPainel.add(bemBox);
+        boxesPainel.add(trocaBox);
+        painel.add(boxesPainel, BorderLayout.CENTER);
+
+        JPanel botoesPainel = new JPanel();
+        botoesPainel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        botoesPainel.add(selecionarBotao);
+        botoesPainel.add(sairBotao);
+        painel.add(botoesPainel, BorderLayout.SOUTH);
+        
+        getContentPane().add(painel);
+
+        selecionarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (setorBox.isSelected()){
+                    new VisaoSetor(painel);
+                } else if (userBox.isSelected()){
+                    new VisaoUsuario(painel);
+                } else if (bemBox.isSelected()){
+                    new VisaoBem(painel);
+                } else if (trocaBox.isSelected()){
+                    new VisaoTroca(painel);
                 }
-            } catch (InputMismatchException e) {
-                System.err.println("CAMPO PREENCHIDO INCORRETAMENTE! ESCOLHA NOVAMENTE.");
-                sc.nextLine();
             }
-        }
-    }  
+        });
+
+        sairBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        ActionListener checkboxListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == setorBox && setorBox.isSelected()) {
+                    userBox.setSelected(false);
+                    bemBox.setSelected(false);
+                    trocaBox.setSelected(false);
+                } else if (e.getSource() == userBox && userBox.isSelected()) {
+                    setorBox.setSelected(false);
+                    bemBox.setSelected(false);
+                    trocaBox.setSelected(false);
+                } else if (e.getSource() == bemBox && bemBox.isSelected()) {
+                    setorBox.setSelected(false);
+                    userBox.setSelected(false);
+                    trocaBox.setSelected(false);
+                } else if (e.getSource() == trocaBox && trocaBox.isSelected()) {
+                    setorBox.setSelected(false);
+                    userBox.setSelected(false);
+                    bemBox.setSelected(false);
+                }
+            }
+        };
+
+        setorBox.addActionListener(checkboxListener);
+        userBox.addActionListener(checkboxListener);
+        bemBox.addActionListener(checkboxListener);
+        trocaBox.addActionListener(checkboxListener);
+
+        setVisible(true);
+    }
 }

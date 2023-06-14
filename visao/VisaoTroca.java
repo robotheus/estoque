@@ -1,118 +1,90 @@
 package visao;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import modelo.*;
-import persistencia.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class VisaoTroca {
-    public static void MenuTroca(BancoDeDados banco, Scanner sc){
-        int op;
+public class VisaoTroca extends JFrame {
+    private JCheckBox cadastrarBox;
+    private JCheckBox alterarBox;
+    private JCheckBox finalizarBox;
+    private JCheckBox visualizarBox;
+    private JButton selecionarBotao;
+    private JButton voltarBotao;
+    
+    public VisaoTroca(JPanel painelAnterior) {
+        setTitle("Stocker - Menu Troca");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 300);
+        setLocationRelativeTo(null);
 
-        while(true){
-            System.out.println("--------------------TROCA--------------------");
-            System.out.println("    Digite 0 para RETORNAR ao menu inicial.");
-            System.out.println("    Digite 1 para CRIAR um TROCA.");
-            System.out.println("    Digite 2 para ALTERAR uma TROCA (REMOVER OU ADICIONAR ITENS).");
-            System.out.println("    Digite 3 para FINALIZAR um TROCA. (troca os setores e imprime o recibo)");
-            System.out.println("    Digite 4 para VISUALIZAR VIA ID.");
-            System.out.println("    Digite 5 para VISUALIZAR TODOS.");
+        cadastrarBox = new JCheckBox("Realizar troca");
+        alterarBox = new JCheckBox("Alterar troca");
+        finalizarBox = new JCheckBox("Finalizar troca");
+        visualizarBox = new JCheckBox("Visualizar troca");
 
-            try {
-                op = sc.nextInt();
-                switch(op) {
-                    case 0: 
-                        return;
-                    
-                    case 1:
-                        System.out.println("Qual o setor de ORIGEM do produto?");
-                        sc.nextLine();
-                        String origem = sc.nextLine();
-                        if(origem.isEmpty()) throw new NullPointerException();
-                        System.out.println("Qual o SEU SETOR?");
-                        String destino = sc.nextLine();
-                        if(destino.isEmpty()) throw new NullPointerException();
-                        System.out.println("Qual bem deseja requisitar para seu setor?");
-                        String b = sc.nextLine();
-                        if(b.isEmpty()) throw new NullPointerException();
-    
-                        Setor SetorOri = (Setor) banco.getPersistenteSetor().buscaPorName(origem);
-                        Setor SetorDest = (Setor) banco.getPersistenteSetor().buscaPorName(destino);
-                        Bem bemTroca = (Bem) banco.getPersistenteBem().buscaPorName(b);
-                        
-                        Troca t = new Troca(SetorOri, SetorDest);
-                        t.getBemTroca().add(bemTroca);
-                        banco.getPersistenteTroca().adicionarObjeto(t);
-                        System.out.println("TROCA CRIADA! ID: " + t.getId());
-    
-                        break;
-                            
-                    case 2:
-                        System.out.println("Digite o ID da troca que deseja ALTERAR:");
-                        int y = sc.nextInt();
-                        Troca x = (Troca) banco.getPersistenteTroca().buscaPorId(y);
+        selecionarBotao = new JButton("Avancar");
+        voltarBotao = new JButton("Voltar");
 
-                        System.out.println("DIGITE 1 PARA ADICIONAR BEM E 2 PARA REMOVER BEM.");
-                        int g = sc.nextInt();
-                        if(g == 1){
-                            System.out.println("Digite o nome do BEM que deseja ADICIONAR:");
-                            sc.nextLine();
-                            String n = sc.nextLine();
-                            if(n.isEmpty()) throw new NullPointerException();
+        JPanel painel = new JPanel();
+        painel.setLayout(new BorderLayout());
+        
+        JPanel boxesPainel = new JPanel();
+        boxesPainel.add(cadastrarBox);
+        boxesPainel.add(alterarBox);
+        boxesPainel.add(finalizarBox);
+        boxesPainel.add(visualizarBox);
+        painel.add(boxesPainel, BorderLayout.CENTER);
 
-                            Bem k = (Bem) banco.getPersistenteBem().buscaPorName(n);
-                            x.addCarrinho(k); //adcionar ao carrinho
-                        } else if(g == 2){
-                            System.out.println("Digite o nome do BEM que deseja REMOVER:");
-                            sc.nextLine();
-                            String n = sc.nextLine();
-                            if(n.isEmpty()) throw new NullPointerException();
+        JPanel botoesPainel = new JPanel();
+        botoesPainel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        botoesPainel.add(selecionarBotao);
+        botoesPainel.add(voltarBotao);
+        painel.add(botoesPainel, BorderLayout.SOUTH);
+        
+        getContentPane().add(painel);
 
-                            Bem k = (Bem) banco.getPersistenteBem().buscaPorName(n);
-                            x.removeCarrinho(k); //remove ao carrinho
-                        }
-    
-                        break;
-                            
-                    case 3:
-                        System.out.println("Digite o ID da troca que deseja FINALIZAR:");
-                        int w = sc.nextInt();
-    
-                        Troca h = (Troca) banco.getPersistenteTroca().buscaPorId(w);
-                        for(Bem c : h.getBemTroca()){
-                            c.setSetor(h.getSetDestino());
-                        }
-    
-                        System.out.println(h.getCarrinho().toString());
-    
-                        break;
-                        
-                    case 4:
-                        System.out.println("Digite o ID para visualização:");
-                        int idSearch = sc.nextInt();
-                            
-                        Entidade aux3 = banco.getPersistenteTroca().buscaPorId(idSearch);
-                        
-                        System.out.println(aux3);    
-                        System.out.println();
-                        break;
-                        
-                    case 5:
-                        banco.getPersistenteTroca().visualizarTudo();
-                        break;
-                    
-                    default:
-                        System.out.println("Opção inválida. Escolha novamente.");
-                        break;
+        selecionarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+
+        voltarBotao.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                painelAnterior.setVisible(true);
+            }
+        });
+
+        ActionListener checkboxListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == cadastrarBox && cadastrarBox.isSelected()) {
+                    alterarBox.setSelected(false);
+                    finalizarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == alterarBox && alterarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    finalizarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == finalizarBox && finalizarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    visualizarBox.setSelected(false);
+                } else if (e.getSource() == visualizarBox && visualizarBox.isSelected()) {
+                    cadastrarBox.setSelected(false);
+                    alterarBox.setSelected(false);
+                    finalizarBox.setSelected(false);
                 }
-            } catch (Excecao e) {
-                System.out.println("ERRO: " + e.getMessage());
-            } catch(InputMismatchException a){
-                System.out.println("CAMPO PREENCHIDO INCORRETAMENTE!");
-                sc.nextLine();
-            } catch(NullPointerException e){
-                System.out.println("NOME VAZIO, DIGITE NOVAMENTE.");
-            } 
-        }
+            }
+        };
+
+        cadastrarBox.addActionListener(checkboxListener);
+        alterarBox.addActionListener(checkboxListener);
+        finalizarBox.addActionListener(checkboxListener);
+        visualizarBox.addActionListener(checkboxListener);
+
+        setVisible(true);
     }
 }
