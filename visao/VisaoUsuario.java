@@ -14,7 +14,7 @@ public class VisaoUsuario extends JFrame {
     private JButton voltarBotao;
     
     public VisaoUsuario(JPanel painelAnterior) {
-        setTitle("Stocker - Menu Usuario");
+        setTitle("Stocker - Usuario");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 300);
         setLocationRelativeTo(null);
@@ -55,9 +55,13 @@ public class VisaoUsuario extends JFrame {
         selecionarBotao.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(cadastrarBox.isSelected()){
-                    cadastroUsuario(painel);
+                    cadastroUsuario();
                 } else if(removerBox.isSelected()){
-                    cadastroUsuario(painel);
+                    removeUsuario();
+                } else if(alterarBox.isSelected()){
+                    alteraUsuario();
+                } else if(visualizarBox.isSelected()){
+                    visualizar();
                 }
             }
         });
@@ -92,47 +96,150 @@ public class VisaoUsuario extends JFrame {
         setVisible(true);
     }
 
-    public void cadastroUsuario(JPanel painelAnterior){
-        JTextField textField;
+    public void cadastroUsuario(){
+        JFrame frame = new JFrame("Cadastro de usuario");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
 
-        setTitle("Cadastro de usuario.");
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        JPanel painel = new JPanel();
+        JLabel titleLabel = new JLabel("Digite o nome do usuario:");
+        painel.add(titleLabel);
+
+        JTextField textField = new JTextField(20);
+        painel.add(textField);
+
+        JButton cadastrarButton = new JButton("Cadastrar");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String user = textField.getText();
+            }
+        });
+        painel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        painel.add(voltarButton);
+        frame.getContentPane().add(painel);
+        frame.setVisible(true);
+    }
+
+    public void removeUsuario(){
+        JFrame frame = new JFrame("Remover usuario");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
-        getContentPane().add(panel);
-        panel.setLayout(null);
+        JLabel titleLabel = new JLabel("Digite o nome do usuario:");
+        panel.add(titleLabel);
 
-        JLabel label = new JLabel("Digite o nome do usuario:");
-        label.setBounds(10, 10, 200, 30);
-        panel.add(label);
-
-        textField = new JTextField();
-        textField.setBounds(10, 50, 200, 30);
+        JTextField textField = new JTextField(20);
         panel.add(textField);
 
-        JButton cadastrarButton = new JButton("Cadastro");
-        cadastrarButton.setBounds(10, 90, 100, 30);
+        JButton cadastrarButton = new JButton("Remover");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String user = textField.getText();
+            }
+        });
         panel.add(cadastrarButton);
 
         JButton voltarButton = new JButton("Voltar");
-        voltarButton.setBounds(120, 90, 100, 30);
-        panel.add(voltarButton);
-
-        cadastrarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
         voltarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                frame.dispose();
             }
         });
+        panel.add(voltarButton);
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
 
-        setVisible(true);
+    public void alteraUsuario(){
+        JFrame frame = new JFrame("Alterar usuario");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel setorLabel = new JLabel("Digite o nome do usuario:");
+        panel.add(setorLabel);
+
+        JTextField setorTextField = new JTextField(20);
+        panel.add(setorTextField);
+
+        JLabel usuarioLabel = new JLabel("Digite o nome do NOVO setor do usuario:");
+        panel.add(usuarioLabel);
+
+        JTextField usuarioTextField = new JTextField(20);
+        panel.add(usuarioTextField);
+
+        JButton cadastrarButton = new JButton("Alterar");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String user = setorTextField.getText();
+                String setor = usuarioTextField.getText();
+            }
+        });
+        panel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+    public void visualizar(){
+        JFrame frame = new JFrame("Visualizar usuario");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel titleLabel = new JLabel("Digite o id do usuario:");
+        panel.add(titleLabel);
+
+        JTextField textField = new JTextField(20);
+        panel.add(textField);
+
+        JButton cadastrarButton = new JButton("Buscar o ID");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String id = textField.getText();
+                // Lógica para remover o setor
+            }
+        });
+        panel.add(cadastrarButton);
+
+        JButton visualizarButton = new JButton("Visualizar Todos");
+        visualizarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para visualizar todos os setores
+            }
+        });
+        panel.add(visualizarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
     }
 }
 

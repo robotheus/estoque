@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class VisaoSetor extends JFrame {
     public VisaoSetor(JPanel painelAnterior) {
-        setTitle("Stocker - Menu Setor");
+        setTitle("Stocker - Setor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 300);
         setLocationRelativeTo(null);
@@ -90,13 +90,13 @@ public class VisaoSetor extends JFrame {
     }
 
     public void cadastroSetor(){
-        JFrame frame = new JFrame("Cadastrar de Setor");
+        JFrame frame = new JFrame("Cadastrar Setor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 150);
         frame.setLocationRelativeTo(null);
 
         JPanel painel = new JPanel();
-        JLabel titleLabel = new JLabel("Digite o nome do Setor");
+        JLabel titleLabel = new JLabel("Digite o nome do Setor:");
         painel.add(titleLabel);
 
         JTextField textField = new JTextField(20);
@@ -122,13 +122,13 @@ public class VisaoSetor extends JFrame {
     }
 
     public void removeSetor(){
-        JFrame frame = new JFrame("Remover de Setor");
+        JFrame frame = new JFrame("Remover Setor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 150);
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
-        JLabel titleLabel = new JLabel("Digite o nome do Setor");
+        JLabel titleLabel = new JLabel("Digite o nome do Setor:");
         panel.add(titleLabel);
 
         JTextField textField = new JTextField(20);
@@ -154,7 +154,7 @@ public class VisaoSetor extends JFrame {
     }
 
     public void alteraSetor(){
-        JFrame frame = new JFrame("Remover de Setor");
+        JFrame frame = new JFrame("Alterar Setor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
         frame.setLocationRelativeTo(null);
@@ -215,7 +215,7 @@ public class VisaoSetor extends JFrame {
         });
         panel.add(cadastrarButton);
 
-        JButton visualizarButton = new JButton("Visualizar Todos");
+        JButton visualizarButton = new JButton("Visualizar todos");
         visualizarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Lógica para visualizar todos os setores

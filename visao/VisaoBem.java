@@ -55,9 +55,13 @@ public class VisaoBem extends JFrame {
         selecionarBotao.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(cadastrarBox.isSelected()){
-                    cadastroBem(painel);
+                    cadastroBem();
                 } else if(removerBox.isSelected()){
-                    cadastroBem(painel);
+                    removeBem();
+                } else if(alterarBox.isSelected()){
+                    alterarBem();
+                } else if(visualizarBox.isSelected()){
+                    visualizar();
                 }
             }
         });
@@ -92,47 +96,150 @@ public class VisaoBem extends JFrame {
         setVisible(true);
     }
 
-    public void cadastroBem(JPanel painelAnterior){
-        JTextField textField;
+    public void cadastroBem(){
+        JFrame frame = new JFrame("Cadastro de bem");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
 
-        setTitle("Cadastro de bem.");
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        JPanel painel = new JPanel();
+        JLabel titleLabel = new JLabel("Digite o nome do bem");
+        painel.add(titleLabel);
+
+        JTextField textField = new JTextField(20);
+        painel.add(textField);
+
+        JButton cadastrarButton = new JButton("Cadastrar");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String bem = textField.getText();
+            }
+        });
+        painel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        painel.add(voltarButton);
+        frame.getContentPane().add(painel);
+        frame.setVisible(true);
+    }
+
+    public void removeBem(){
+        JFrame frame = new JFrame("Remover bem");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
-        getContentPane().add(panel);
-        panel.setLayout(null);
+        JLabel titleLabel = new JLabel("Digite o nome do bem:");
+        panel.add(titleLabel);
 
-        JLabel label = new JLabel("Digite o nome do bem:");
-        label.setBounds(10, 10, 200, 30);
-        panel.add(label);
-
-        textField = new JTextField();
-        textField.setBounds(10, 50, 200, 30);
+        JTextField textField = new JTextField(20);
         panel.add(textField);
 
-        JButton cadastrarButton = new JButton("Cadastro");
-        cadastrarButton.setBounds(10, 90, 100, 30);
+        JButton cadastrarButton = new JButton("Remover");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String bem = textField.getText();
+            }
+        });
         panel.add(cadastrarButton);
 
         JButton voltarButton = new JButton("Voltar");
-        voltarButton.setBounds(120, 90, 100, 30);
-        panel.add(voltarButton);
-
-        cadastrarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
         voltarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                frame.dispose();
             }
         });
+        panel.add(voltarButton);
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
 
-        setVisible(true);
+    public void alterarBem(){
+        JFrame frame = new JFrame("Alterar bem");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel setorLabel = new JLabel("Digite o nome do bem:");
+        panel.add(setorLabel);
+
+        JTextField setorTextField = new JTextField(20);
+        panel.add(setorTextField);
+
+        JLabel usuarioLabel = new JLabel("Digite o nome do NOVO setor do bem:");
+        panel.add(usuarioLabel);
+
+        JTextField usuarioTextField = new JTextField(20);
+        panel.add(usuarioTextField);
+
+        JButton cadastrarButton = new JButton("Alterar");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String bem = setorTextField.getText();
+                String setor = usuarioTextField.getText();
+            }
+        });
+        panel.add(cadastrarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+    public void visualizar(){
+        JFrame frame = new JFrame("Visualizar bem");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        JLabel titleLabel = new JLabel("Digite o id do bem:");
+        panel.add(titleLabel);
+
+        JTextField textField = new JTextField(20);
+        panel.add(textField);
+
+        JButton cadastrarButton = new JButton("Buscar o ID");
+        cadastrarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String id = textField.getText();
+                // Lógica para remover o setor
+            }
+        });
+        panel.add(cadastrarButton);
+
+        JButton visualizarButton = new JButton("Visualizar Todos");
+        visualizarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para visualizar todos os setores
+            }
+        });
+        panel.add(visualizarButton);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
     }
 }
 
