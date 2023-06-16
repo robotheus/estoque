@@ -5,12 +5,20 @@ public class BancoDeDados {
     private Persistente persistenteSetor;
     private Persistente persistenteBem;
     private Persistente persistenteTroca;
+    private static BancoDeDados uniqueInstance;
 
-    public BancoDeDados() {
+    private BancoDeDados() {
         persistenteUsuario = new Persistente();
         persistenteSetor = new Persistente();
         persistenteBem = new Persistente();
         persistenteTroca = new Persistente();
+    }
+        
+    public static BancoDeDados getInstance(){
+        if(uniqueInstance == null){
+            uniqueInstance = new BancoDeDados();
+        }
+        return uniqueInstance;
     }
 
     public Persistente getPersistenteUsuario() {
