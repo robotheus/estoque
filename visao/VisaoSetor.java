@@ -1,11 +1,17 @@
 package visao;
 
 import javax.swing.*;
+
+import controle.ControleSetor;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 public class VisaoSetor extends JFrame {
+    private ControleSetor controle;
+
     public VisaoSetor(JPanel painelAnterior) {
         setTitle("Stocker - Setor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,6 +112,12 @@ public class VisaoSetor extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String setor = textField.getText();
+                
+                if(controle.cadastra(setor)){
+                    JOptionPane.showMessageDialog(null, "Setor cadastrado!");
+                } else{
+                    JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o setor!");
+                }
             }
         });
         painel.add(cadastrarButton);
