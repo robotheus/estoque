@@ -24,14 +24,17 @@ public class ControleSetor{
         }
     }
     
-    public void altera(String novoChefe, String setor){
+    public String altera(String setor, String novoChefe){
         try{
             Setor aux1 = (Setor) banco.getPersistenteSetor().buscaPorName(setor);
             Usuario aux2 = (Usuario) banco.getPersistenteUsuario().buscaPorName(novoChefe);
-                            
+                      
             aux1.setUserChefe(aux2);
+            return "true";
         } catch(Exception e){
-
+            String mensagem = e.toString();
+            String[] msg = mensagem.split(":");
+            return msg[1];
         }
     }
     
