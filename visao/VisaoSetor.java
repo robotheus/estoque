@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class VisaoSetor extends JFrame {
-    ControleSetor controle = new ControleSetor();
+    private ControleSetor controle = new ControleSetor();
 
     public VisaoSetor(JPanel painelAnterior) {
         setTitle("Stocker - Setor");
@@ -190,7 +190,7 @@ public class VisaoSetor extends JFrame {
         JTextField setorTextField = new JTextField(20);
         panel.add(setorTextField);
 
-        JLabel usuarioLabel = new JLabel("Digite o nome do usuario chefe:");
+        JLabel usuarioLabel = new JLabel("Digite o nome do NOVO usuario chefe:");
         panel.add(usuarioLabel);
 
         JTextField usuarioTextField = new JTextField(20);
@@ -201,10 +201,15 @@ public class VisaoSetor extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String setor = setorTextField.getText();
                 String usuario = usuarioTextField.getText();
-
+                
                 if(setor.isEmpty() | usuario.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
                 else{
-                    controle.altera(usuario, setor);
+                    String mensagem = controle.altera(setor, usuario);
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Alteracao realizada!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
                 }
             }
         });
@@ -271,7 +276,7 @@ public class VisaoSetor extends JFrame {
     }
 
     public void criaTabela(ArrayList<Entidade> elementos){
-        JFrame frame = new JFrame("Exemplo de Tabela");
+        JFrame frame = new JFrame("Visualizar todos");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);

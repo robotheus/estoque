@@ -1,31 +1,32 @@
 package visao;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import controle.ControleUsuario;
+import modelo.Entidade;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VisaoUsuario extends JFrame {
-    private JCheckBox cadastrarBox;
-    private JCheckBox removerBox;
-    private JCheckBox alterarBox;
-    private JCheckBox visualizarBox;
-    private JButton selecionarBotao;
-    private JButton voltarBotao;
-    
+    private ControleUsuario controle = new ControleUsuario();
+
     public VisaoUsuario(JPanel painelAnterior) {
         setTitle("Stocker - Usuario");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 300);
         setLocationRelativeTo(null);
 
-        cadastrarBox = new JCheckBox("Cadastrar usuario");
-        removerBox = new JCheckBox("Remover usuario");
-        alterarBox = new JCheckBox("Alterar usuario");
-        visualizarBox = new JCheckBox("Visualizar usuario");
+        JCheckBox cadastrarBox = new JCheckBox("Cadastrar usuario");
+        JCheckBox removerBox = new JCheckBox("Remover usuario");
+        JCheckBox alterarBox = new JCheckBox("Alterar usuario");
+        JCheckBox visualizarBox = new JCheckBox("Visualizar usuario");
 
-        selecionarBotao = new JButton("Avancar");
-        voltarBotao = new JButton("Voltar");
+        JButton selecionarBotao = new JButton("Avancar");
+        JButton voltarBotao = new JButton("Voltar");
 
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
@@ -112,7 +113,14 @@ public class VisaoUsuario extends JFrame {
         JButton cadastrarButton = new JButton("Cadastrar");
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String user = textField.getText();
+                String Usuario = textField.getText();
+                
+                if(Usuario.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else {
+                    controle.cadastra(Usuario);
+                    String mensagem = "Usuario '" + Usuario + "' cadastrado!";
+                    JOptionPane.showMessageDialog(null, mensagem);
+                }
             }
         });
         painel.add(cadastrarButton);
@@ -144,7 +152,17 @@ public class VisaoUsuario extends JFrame {
         JButton cadastrarButton = new JButton("Remover");
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String user = textField.getText();
+                String Usuario = textField.getText();
+                if(Usuario.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else{
+                    String mensagem = controle.remove(Usuario);
+                
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Usuario removido");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -167,23 +185,33 @@ public class VisaoUsuario extends JFrame {
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
-        JLabel setorLabel = new JLabel("Digite o nome do usuario:");
-        panel.add(setorLabel);
-
-        JTextField setorTextField = new JTextField(20);
-        panel.add(setorTextField);
-
-        JLabel usuarioLabel = new JLabel("Digite o nome do NOVO setor do usuario:");
+        JLabel usuarioLabel = new JLabel("Digite o nome do usuario:");
         panel.add(usuarioLabel);
 
         JTextField usuarioTextField = new JTextField(20);
         panel.add(usuarioTextField);
 
+        JLabel setorLabel = new JLabel("Digite o nome do NOVO setor do usuario:");
+        panel.add(setorLabel);
+
+        JTextField setorTextField = new JTextField(20);
+        panel.add(setorTextField);
+
         JButton cadastrarButton = new JButton("Alterar");
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String user = setorTextField.getText();
-                String setor = usuarioTextField.getText();
+                String usuario = usuarioTextField.getText();
+                String setor = setorTextField.getText();
+
+                if(setor.isEmpty() | usuario.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else{
+                    String mensagem = controle.altera(usuario, setor);
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Alteracao realizada!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -217,7 +245,12 @@ public class VisaoUsuario extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String id = textField.getText();
-                // Lógica para remover o setor
+                if(id.isEmpty()) JOptionPane.showMessageDialog(null, "ID vazio!");
+                else{
+                    int idNum = Integer.parseInt(id);
+                    String valida = controle.visualiza(idNum);
+                    JOptionPane.showMessageDialog(null, valida);
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -225,7 +258,8 @@ public class VisaoUsuario extends JFrame {
         JButton visualizarButton = new JButton("Visualizar Todos");
         visualizarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para visualizar todos os setores
+                ArrayList<Entidade> lista = controle.visualizaTodos();
+                criaTabela(lista);
             }
         });
         panel.add(visualizarButton);
@@ -239,6 +273,39 @@ public class VisaoUsuario extends JFrame {
         panel.add(voltarButton);
 
         frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+    public void criaTabela(ArrayList<Entidade> elementos){
+        JFrame frame = new JFrame("Visualizar todos");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
+
+        String[] columnNames = {"Id", "Nome"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+
+        for (Entidade elemento : elementos) {
+            Object[] row = {elemento.getId(), elemento.getName()};
+            tableModel.addRow(row);
+        }
+        
+        JTable table = new JTable(tableModel);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        JPanel panel = new JPanel();
+        panel.add(scrollPane);
+        frame.add(panel);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
         frame.setVisible(true);
     }
 }

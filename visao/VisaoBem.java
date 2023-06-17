@@ -1,17 +1,18 @@
 package visao;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import controle.ControleBem;
+import modelo.Entidade;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VisaoBem extends JFrame {
-    private JCheckBox cadastrarBox;
-    private JCheckBox removerBox;
-    private JCheckBox alterarBox;
-    private JCheckBox visualizarBox;
-    private JButton selecionarBotao;
-    private JButton voltarBotao;
+    private ControleBem controle = new ControleBem();
     
     public VisaoBem(JPanel painelAnterior) {
         setTitle("Stocker - Menu Bem");
@@ -19,13 +20,13 @@ public class VisaoBem extends JFrame {
         setSize(300, 300);
         setLocationRelativeTo(null);
 
-        cadastrarBox = new JCheckBox("Cadastrar bem");
-        removerBox = new JCheckBox("Remover bem");
-        alterarBox = new JCheckBox("Alterar bem");
-        visualizarBox = new JCheckBox("Visualizar bem");
+        JCheckBox cadastrarBox = new JCheckBox("Cadastrar bem");
+        JCheckBox removerBox = new JCheckBox("Remover bem");
+        JCheckBox alterarBox = new JCheckBox("Alterar bem");
+        JCheckBox visualizarBox = new JCheckBox("Visualizar bem");
 
-        selecionarBotao = new JButton("Avancar");
-        voltarBotao = new JButton("Voltar");
+        JButton selecionarBotao = new JButton("Avancar");
+        JButton voltarBotao = new JButton("Voltar");
 
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
@@ -99,20 +100,36 @@ public class VisaoBem extends JFrame {
     public void cadastroBem(){
         JFrame frame = new JFrame("Cadastro de bem");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 150);
+        frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
 
         JPanel painel = new JPanel();
-        JLabel titleLabel = new JLabel("Digite o nome do bem");
-        painel.add(titleLabel);
 
-        JTextField textField = new JTextField(20);
-        painel.add(textField);
+        JLabel titleLabel1 = new JLabel("Digite o nome do bem");
+        painel.add(titleLabel1);
+        JTextField textField1 = new JTextField(20);
+        painel.add(textField1);
+
+        JLabel titleLabel2 = new JLabel("Digite o setor do bem");
+        painel.add(titleLabel2);
+        JTextField textField2 = new JTextField(20);
+        painel.add(textField2);
 
         JButton cadastrarButton = new JButton("Cadastrar");
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String bem = textField.getText();
+                String bem = textField1.getText();
+                String setor = textField2.getText();
+
+                if(bem.isEmpty() | setor.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else {
+                    String mensagem = controle.cadastra(bem, setor);
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Bem cadastrado!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         painel.add(cadastrarButton);
@@ -145,6 +162,16 @@ public class VisaoBem extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String bem = textField.getText();
+                if(bem.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else{
+                    String mensagem = controle.remove(bem);
+                
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Bem removido.");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -167,23 +194,33 @@ public class VisaoBem extends JFrame {
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
-        JLabel setorLabel = new JLabel("Digite o nome do bem:");
+        JLabel nomeLabel = new JLabel("Digite o nome do bem:");
+        panel.add(nomeLabel);
+
+        JTextField nomeTextField = new JTextField(20);
+        panel.add(nomeTextField);
+
+        JLabel setorLabel = new JLabel("Digite o nome do NOVO setor do bem:");
         panel.add(setorLabel);
 
         JTextField setorTextField = new JTextField(20);
         panel.add(setorTextField);
 
-        JLabel usuarioLabel = new JLabel("Digite o nome do NOVO setor do bem:");
-        panel.add(usuarioLabel);
-
-        JTextField usuarioTextField = new JTextField(20);
-        panel.add(usuarioTextField);
-
         JButton cadastrarButton = new JButton("Alterar");
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String bem = setorTextField.getText();
-                String setor = usuarioTextField.getText();
+                String nome = nomeTextField.getText();
+                String setor = setorTextField.getText();
+
+                if(setor.isEmpty() | nome.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else{
+                    String mensagem = controle.altera(nome, setor);
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Alteracao realizada!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -217,7 +254,12 @@ public class VisaoBem extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String id = textField.getText();
-                // Lógica para remover o setor
+                if(id.isEmpty()) JOptionPane.showMessageDialog(null, "ID vazio!");
+                else{
+                    int idNum = Integer.parseInt(id);
+                    String valida = controle.visualiza(idNum);
+                    JOptionPane.showMessageDialog(null, valida);
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -225,7 +267,8 @@ public class VisaoBem extends JFrame {
         JButton visualizarButton = new JButton("Visualizar Todos");
         visualizarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para visualizar todos os setores
+                ArrayList<Entidade> lista = controle.visualizaTodos();
+                criaTabela(lista);
             }
         });
         panel.add(visualizarButton);
@@ -239,6 +282,39 @@ public class VisaoBem extends JFrame {
         panel.add(voltarButton);
 
         frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+    public void criaTabela(ArrayList<Entidade> elementos){
+        JFrame frame = new JFrame("Visualizar todos");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
+
+        String[] columnNames = {"Id", "Nome"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+
+        for (Entidade elemento : elementos) {
+            Object[] row = {elemento.getId(), elemento.getName()};
+            tableModel.addRow(row);
+        }
+        
+        JTable table = new JTable(tableModel);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        JPanel panel = new JPanel();
+        panel.add(scrollPane);
+        frame.add(panel);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
         frame.setVisible(true);
     }
 }
