@@ -48,7 +48,7 @@ public class VisaoMenu extends JFrame {
         selecionarBotao.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (setorBox.isSelected()){
-                    new VisaoBem(painel);
+                    new VisaoSetor(painel);
                 } else if (userBox.isSelected()){
                     new VisaoUsuario(painel);
                 } else if (bemBox.isSelected()){

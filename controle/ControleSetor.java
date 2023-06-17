@@ -1,42 +1,30 @@
 package controle;
 
+import java.util.ArrayList;
 import modelo.*;
 import persistencia.BancoDeDados;
 
 public class ControleSetor{
-    private BancoDeDados banco;
+    BancoDeDados banco = BancoDeDados.getInstance();
 
-    public ControleSetor(){
-        banco = BancoDeDados.getInstance();
-    }
-
-    public boolean cadastra(String name){
-        if(name.isEmpty()) throw new NullPointerException();
-        
-        try{
-            Setor novoSetor = new Setor(name);
-            banco.getPersistenteSetor().adicionarObjeto(novoSetor);
-            return true;
-        } catch(Exception e){
-            return false;
-        }
+    public void cadastra(String name){
+        Setor novoSetor = new Setor(name);
+        banco.getPersistenteSetor().adicionarObjeto(novoSetor);
     }
     
-    public void remove(String name){
-        if(name.isEmpty()) throw new NullPointerException();
-    
+    public String remove(String name){
         try{
             Entidade setorRemovido = banco.getPersistenteSetor().buscaPorName(name);
             banco.getPersistenteSetor().removerObjeto(setorRemovido);
+            return "true";
         } catch(Exception e){
-
+            String mensagem = e.toString();
+            String[] msg = mensagem.split(":");
+            return msg[1];
         }
     }
     
     public void altera(String novoChefe, String setor){
-        if(novoChefe.isEmpty()) throw new NullPointerException();
-        if(setor.isEmpty()) throw new NullPointerException();
-
         try{
             Setor aux1 = (Setor) banco.getPersistenteSetor().buscaPorName(setor);
             Usuario aux2 = (Usuario) banco.getPersistenteUsuario().buscaPorName(novoChefe);
@@ -47,19 +35,25 @@ public class ControleSetor{
         }
     }
     
-    public void visualiza(int id){
+    public String visualiza(int id){
         try{
             Entidade aux3 = banco.getPersistenteSetor().buscaPorId(id);
-        } catch (Exception e){
-
+            return aux3.toString();
+        } catch(Exception e){
+            String mensagem = e.toString();
+            String[] msg = mensagem.split(":");
+            return msg[1];
         }
     }
 
-    public void visualizaTodos(){
+    public ArrayList<Entidade> visualizaTodos(){
+        ArrayList<Entidade> list = new ArrayList<Entidade>();
+        
         try{
-            banco.getPersistenteSetor().visualizarTudo();
+            list = banco.getPersistenteSetor().visualizarTudo();
+            return list;
         } catch(Exception e){
-            
+            return list;
         }
     }
 }

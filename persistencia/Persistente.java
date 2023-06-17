@@ -26,7 +26,7 @@ public class Persistente {
             }
         }
         
-        throw new Excecao("ID NÃO ENCONTRADO!");
+        throw new Excecao("ID NAO ENCONTRADO!");
     }
 
     public Entidade buscaPorName(String name) throws Excecao {
@@ -36,13 +36,16 @@ public class Persistente {
             }
         }
         
-        throw new Excecao("NOME NÃO ENCONTRADO!");
+        throw new Excecao("NOME NAO ENCONTRADO!");
     }
 
-    public void visualizarTudo(){
+    public ArrayList<Entidade> visualizarTudo(){
+        ArrayList<Entidade> lista = new ArrayList<Entidade>();
+        
         for(Entidade x : persistencia){
-            if(x.getName() != null) System.out.println("ID: " + x.getId() + ", NOME: " + x.getName());
-            else System.out.println("ID: " + x.getId());
+            lista.add(x);
         }
+
+        return lista;
     }
 }
