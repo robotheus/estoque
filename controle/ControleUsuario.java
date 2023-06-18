@@ -8,10 +8,14 @@ import modelo.Usuario;
 import persistencia.BancoDeDados;
 
 public class ControleUsuario {
-    BancoDeDados banco = BancoDeDados.getInstance();
+    BancoDeDados banco;
 
+    public ControleUsuario(){
+        banco = BancoDeDados.getInstance();
+    }
+    
     public void cadastra(String name){
-        Setor novoSetor = new Setor(name);
+        Usuario novoSetor = new Usuario(name);
         banco.getPersistenteUsuario().adicionarObjeto(novoSetor);
     }
     
@@ -29,9 +33,10 @@ public class ControleUsuario {
     
     public String altera(String usuario, String setor){
         try{
-            Usuario aux1 = (Usuario) banco.getPersistenteUsuario().buscaPorName(usuario);
             Setor aux2 = (Setor) banco.getPersistenteSetor().buscaPorName(setor);              
+            Usuario aux1 = (Usuario) banco.getPersistenteUsuario().buscaPorName(usuario);
             
+            aux2.setUserChefe(aux1);
             aux1.setSetor(aux2);
             return "true";
         } catch(Exception e){

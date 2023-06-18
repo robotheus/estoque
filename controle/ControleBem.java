@@ -9,8 +9,12 @@ import persistencia.BancoDeDados;
 import persistencia.Excecao;
 
 public class ControleBem{
-    BancoDeDados banco = BancoDeDados.getInstance();
+    BancoDeDados banco;
 
+    public ControleBem(){
+        banco = BancoDeDados.getInstance();
+    }
+    
     public String cadastra(String name, String setor){
         try{
             Setor s = (Setor) banco.getPersistenteSetor().buscaPorName(setor);

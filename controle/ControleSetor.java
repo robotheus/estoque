@@ -1,12 +1,18 @@
 package controle;
 
 import java.util.ArrayList;
-import modelo.*;
+import modelo.Setor;
+import modelo.Usuario;
+import modelo.Entidade;
 import persistencia.BancoDeDados;
 
 public class ControleSetor{
-    BancoDeDados banco = BancoDeDados.getInstance();
+    BancoDeDados banco;
 
+    public ControleSetor(){
+        banco = BancoDeDados.getInstance();
+    }
+    
     public void cadastra(String name){
         Setor novoSetor = new Setor(name);
         banco.getPersistenteSetor().adicionarObjeto(novoSetor);
@@ -30,6 +36,7 @@ public class ControleSetor{
             Usuario aux2 = (Usuario) banco.getPersistenteUsuario().buscaPorName(novoChefe);
                       
             aux1.setUserChefe(aux2);
+            aux2.setSetor(aux1);
             return "true";
         } catch(Exception e){
             String mensagem = e.toString();
