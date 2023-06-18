@@ -8,10 +8,10 @@ public class BancoDeDados {
     private static BancoDeDados uniqueInstance;
 
     private BancoDeDados() {
-        persistenteUsuario = new Persistente();
-        persistenteSetor = new Persistente();
-        persistenteBem = new Persistente();
-        persistenteTroca = new Persistente();
+        this.persistenteUsuario = new Persistente();
+        this.persistenteSetor = new Persistente();
+        this.persistenteBem = new Persistente();
+        this.persistenteTroca = new Persistente();
     }
         
     public static BancoDeDados getInstance(){
@@ -22,19 +22,19 @@ public class BancoDeDados {
     }
 
     public Persistente getPersistenteUsuario() {
-        return persistenteUsuario;
+        return this.persistenteUsuario;
     }
 
     public Persistente getPersistenteSetor() {
-        return persistenteSetor;
+        return this.persistenteSetor;
     }
 
     public Persistente getPersistenteBem() {
-        return persistenteBem;
+        return this.persistenteBem;
     }
 
     public Persistente getPersistenteTroca() {
-        return persistenteTroca;
+        return this.persistenteTroca;
     }
 }
 
