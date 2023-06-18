@@ -184,15 +184,14 @@ public class VisaoSetor extends JFrame {
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
+        
         JLabel setorLabel = new JLabel("Digite o nome do setor:");
         panel.add(setorLabel);
-
         JTextField setorTextField = new JTextField(20);
         panel.add(setorTextField);
 
         JLabel usuarioLabel = new JLabel("Digite o nome do NOVO usuario chefe:");
         panel.add(usuarioLabel);
-
         JTextField usuarioTextField = new JTextField(20);
         panel.add(usuarioTextField);
 

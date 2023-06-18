@@ -6,26 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class VisaoMenu extends JFrame {
-    private JCheckBox setorBox;
-    private JCheckBox userBox;
-    private JCheckBox bemBox;
-    private JCheckBox trocaBox;
-    private JButton selecionarBotao;
-    private JButton sairBotao;
-
     public VisaoMenu() {
         setTitle("Stocker - Menu Geral");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 300);
         setLocationRelativeTo(null);
 
-        setorBox = new JCheckBox("Setor");
-        userBox = new JCheckBox("Usuario");
-        bemBox = new JCheckBox("Bem");
-        trocaBox = new JCheckBox("Troca");
+        JCheckBox setorBox = new JCheckBox("Setor");
+        JCheckBox userBox = new JCheckBox("Usuario");
+        JCheckBox bemBox = new JCheckBox("Bem");
+        JCheckBox trocaBox = new JCheckBox("Troca");
 
-        selecionarBotao = new JButton("Avancar");
-        sairBotao = new JButton("Sair");
+        JButton selecionarBotao = new JButton("Avancar");
+        JButton sairBotao = new JButton("Sair");
 
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());

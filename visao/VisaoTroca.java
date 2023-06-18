@@ -1,17 +1,18 @@
 package visao;
 
+import controle.ControleTroca;
+import modelo.Entidade;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VisaoTroca extends JFrame {
-    private JCheckBox criaTrocaBox;
-    private JCheckBox alterarBox;
-    private JCheckBox finalizarBox;
-    private JCheckBox visualizarBox;
-    private JButton selecionarBotao;
-    private JButton voltarBotao;
+    private ControleTroca controle = new ControleTroca();
     
     public VisaoTroca(JPanel painelAnterior) {
         setTitle("Stocker - Menu Troca");
@@ -19,13 +20,13 @@ public class VisaoTroca extends JFrame {
         setSize(300, 300);
         setLocationRelativeTo(null);
 
-        criaTrocaBox = new JCheckBox("Realizar troca");
-        alterarBox = new JCheckBox("Alterar troca");
-        finalizarBox = new JCheckBox("Finalizar troca");
-        visualizarBox = new JCheckBox("Visualizar troca");
+        JCheckBox criaTrocaBox = new JCheckBox("Realizar troca");
+        JCheckBox alterarBox = new JCheckBox("Alterar troca");
+        JCheckBox finalizarBox = new JCheckBox("Finalizar troca");
+        JCheckBox visualizarBox = new JCheckBox("Visualizar troca");
 
-        selecionarBotao = new JButton("Avancar");
-        voltarBotao = new JButton("Voltar");
+        JButton selecionarBotao = new JButton("Avancar");
+        JButton voltarBotao = new JButton("Voltar");
 
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
@@ -125,6 +126,17 @@ public class VisaoTroca extends JFrame {
                 String origem = textField.getText();
                 String destino = textField2.getText();
                 String bem = textField3.getText();
+                
+                if(origem.isEmpty() | destino.isEmpty() | bem.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else {
+                    String mensagem = controle.criaTroca(origem, destino, bem);
+
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Troca criada!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         painel.add(cadastrarButton);
@@ -144,28 +156,59 @@ public class VisaoTroca extends JFrame {
     public void alterarTroca(){
         JFrame frame = new JFrame("Alterar troca");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 150);
+        frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
         
-        JLabel titleLabel = new JLabel("Digite o nome do bem:");
+        JLabel titleLabel = new JLabel("Digite o id da troca:");
         panel.add(titleLabel);
         JTextField textField = new JTextField(20);
         panel.add(textField);
 
+        JLabel titleLabel2 = new JLabel("Digite o nome do bem:");
+        panel.add(titleLabel2);
+        JTextField textField2 = new JTextField(20);
+        panel.add(textField2);
+
         JButton cadastrarButton = new JButton("Adicionar");
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String bemString = textField.getText();
+                String id = textField.getText();
+                String bem = textField2.getText();
+                int op = 1;
+
+                if(id.isEmpty() | bem.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else {
+                    String mensagem = controle.altera(id, bem, op);
+
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Troca alterada!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         panel.add(cadastrarButton);
 
         JButton removerButton = new JButton("Remover");
-        cadastrarButton.addActionListener(new ActionListener() {
+        removerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String bemString = textField.getText();
+                String id = textField.getText();
+                String bem = textField2.getText();
+                int op = 2;
+
+                if(id.isEmpty() | bem.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else {
+                    String mensagem = controle.altera(id, bem, op);
+
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Troca alterada!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         panel.add(removerButton);
@@ -199,6 +242,18 @@ public class VisaoTroca extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String  id = setorTextField.getText();
+
+                if(id.isEmpty()) JOptionPane.showMessageDialog(null, "Nome vazio!");
+                else {
+                    int idBusca = Integer.parseInt(id);
+                    String mensagem = controle.finaliza(idBusca);
+
+                    if(mensagem.equals("true")){
+                        JOptionPane.showMessageDialog(null, "Troca alterada!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, mensagem);
+                    }
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -232,7 +287,13 @@ public class VisaoTroca extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String id = textField.getText();
-                // Lógica para remover o setor
+                
+                if(id.isEmpty()) JOptionPane.showMessageDialog(null, "ID vazio!");
+                else {
+                    int idBusca = Integer.parseInt(id);
+                    String mensagem = controle.visualiza(idBusca);
+                    JOptionPane.showMessageDialog(null, mensagem);
+                }
             }
         });
         panel.add(cadastrarButton);
@@ -240,7 +301,8 @@ public class VisaoTroca extends JFrame {
         JButton visualizarButton = new JButton("Visualizar todas");
         visualizarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica para visualizar todos os setores
+                ArrayList<Entidade> lista = controle.visualizaTodos();
+                criaTabela(lista);
             }
         });
         panel.add(visualizarButton);
@@ -254,6 +316,39 @@ public class VisaoTroca extends JFrame {
         panel.add(voltarButton);
 
         frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
+    public void criaTabela(ArrayList<Entidade> elementos){
+        JFrame frame = new JFrame("Visualizar todas");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
+
+        String[] columnNames = {"Id", "Nome"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+
+        for (Entidade elemento : elementos) {
+            Object[] row = {elemento.getId(), elemento.getName()};
+            tableModel.addRow(row);
+        }
+        
+        JTable table = new JTable(tableModel);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        JPanel panel = new JPanel();
+        panel.add(scrollPane);
+        frame.add(panel);
+
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        panel.add(voltarButton);
+
         frame.setVisible(true);
     }
 }
