@@ -5,56 +5,40 @@ import java.util.ArrayList;
 public class Troca extends Entidade{
     private Setor setOrigem;
     private Setor setDestino;
-    private ArrayList<Bem> bemTroca;
-    private Recibo carrinho;
-
+    private ArrayList<ItemTroca> itensTroca;
+    
     public Troca(Setor setOrigem, Setor setDestino){
-        super();
+        super(setOrigem.getName() + " -> " + setDestino.getName());
         this.setOrigem = setOrigem;
         this.setDestino = setDestino;
-        this.bemTroca = new ArrayList<Bem>();
-        this.carrinho = new Recibo(bemTroca);
+        this.itensTroca = new ArrayList<ItemTroca>();
     }
 
-    public Setor getSetOrigem() {
+    public Setor getOrigem() {
         return setOrigem;
     }
 
-    public void setSetOrigem(Setor setOrigem) {
-        this.setOrigem = setOrigem;
-    }
-
-    public Setor getSetDestino() {
+    public Setor getDestino() {
         return setDestino;
     }
 
-    public void setSetDestino(Setor setDestino) {
-        this.setDestino = setDestino;
+    public ArrayList<ItemTroca> getItensTroca() {
+        return itensTroca;
     }
 
-    public ArrayList<Bem> getBemTroca() {
-        return bemTroca;
+    public void adicionaItemTroca(ItemTroca bem){
+        itensTroca.add(bem);
     }
 
-    public Recibo getCarrinho(){
-        return this.carrinho;
-    }
-
-    public void addCarrinho(Bem b){
-        this.carrinho.getBens().add(b);
-        this.carrinho.setqtdBensNoCarrinho(this.carrinho.getqtdBensNoCarrinho() + 1);
-    }
-
-    public void removeCarrinho(Bem b){
-        this.carrinho.getBens().remove(b);
-        this.carrinho.setqtdBensNoCarrinho(this.carrinho.getqtdBensNoCarrinho() - 1);
+    public void removeItemTroca(ItemTroca bem){
+        itensTroca.remove(bem);
     }
 
     public String toString() {
         String a = super.toString() + ", setor de origem = " + setOrigem.getName() + ", setor de destino = " + setDestino.getName() + ", bens envolvidos: ";
         
-        for(Bem x : bemTroca){
-            a += x.getName();
+        for(ItemTroca x : itensTroca){
+            a += (x.getBem().getName() + " (" + x.getstatus() + ")");
             a += ", ";
         }
         

@@ -1,18 +1,18 @@
 package modelo;
 
 public class Usuario extends Entidade{
-    private Setor setor;
+    private Entidade setor;
 
     public Usuario(String name){
         super(name);
         this.setor = null;
     }
 
-    public Setor getSetor() {
+    public Entidade getSetor() {
         return setor;
     }
 
-    public void setSetor(Setor setor) {
+    public void setSetor(Entidade setor) {
         this.setor = setor;
     }
 
