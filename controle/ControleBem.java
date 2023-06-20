@@ -9,7 +9,7 @@ import persistencia.BancoDeDados;
 import persistencia.Excecao;
 
 public class ControleBem{
-    BancoDeDados banco;
+    private BancoDeDados banco;
 
     public ControleBem(){
         banco = BancoDeDados.getInstance();
