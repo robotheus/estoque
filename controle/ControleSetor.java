@@ -7,7 +7,7 @@ import modelo.Entidade;
 import persistencia.BancoDeDados;
 
 public class ControleSetor{
-    BancoDeDados banco;
+    private BancoDeDados banco;
 
     public ControleSetor(){
         banco = BancoDeDados.getInstance();
