@@ -7,7 +7,7 @@ import persistencia.BancoDeDados;
 import persistencia.Excecao;
 
 public class ControleTroca{
-    BancoDeDados banco;
+    private BancoDeDados banco;
 
     public ControleTroca(){
         banco = BancoDeDados.getInstance();
